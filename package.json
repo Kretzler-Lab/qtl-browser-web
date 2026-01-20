@@ -1,7 +1,7 @@
 {
   "name": "qtl-browser-web",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "start": "vite",
@@ -11,8 +11,13 @@
     "build-css": "sass src/:src/"
   },
   "dependencies": {
+    "bootstrap": "5.3.8",
+    "bootstrap-5-css-only": "5.1.3",
+    "kpmp-common-styles": "1.0.13",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "react-router": "7.12.0",
+    "reactstrap": "9.2.3"
   },
   "devDependencies": {
     "@eslint/js": "9.39.1",
@@ -24,7 +29,8 @@
     "eslint-plugin-react-hooks": "7.0.1",
     "eslint-plugin-react-refresh": "0.4.24",
     "globals": "16.5.0",
-    "typescript": "~5.9.3",
+    "sass-embedded": "1.97.2",
+    "typescript": "5.9.3",
     "typescript-eslint": "8.46.4",
     "vite": "7.2.4"
   }
