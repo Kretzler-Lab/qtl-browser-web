@@ -15,21 +15,21 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id}) =>
         {
             y: dataBox1,
             type: 'box',
-            name: 'GA', // Label for the first box
-            boxpoints: 'all', // Show all individual data points
-            jitter: 0.3, // Add jitter to points for better visibility
+            name: 'GA',
+            boxpoints: 'all',
+            jitter: 0.3,
         },
         {
             y: dataBox2,
             type: 'box',
-            name: 'GG', // Label for the second box
+            name: 'GG',
             boxpoints: 'all',
             jitter: 0.3,
         },
         {
             y: dataBox3,
             type: 'box',
-            name: 'AA', // Label for the third box
+            name: 'AA', 
             boxpoints: 'all',
             jitter: 0.3,
         },
