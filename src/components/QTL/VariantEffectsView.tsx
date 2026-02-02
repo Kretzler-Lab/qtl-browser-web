@@ -16,21 +16,21 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id}) =>
         {
             y: dataBox1,
             type: 'box',
-            name: 'Box 1', // Label for the first box
+            name: 'GA', // Label for the first box
             boxpoints: 'all', // Show all individual data points
             jitter: 0.3, // Add jitter to points for better visibility
         },
         {
             y: dataBox2,
             type: 'box',
-            name: 'Box 2', // Label for the second box
+            name: 'GG', // Label for the second box
             boxpoints: 'all',
             jitter: 0.3,
         },
         {
             y: dataBox3,
             type: 'box',
-            name: 'Box 3', // Label for the third box
+            name: 'AA', // Label for the third box
             boxpoints: 'all',
             jitter: 0.3,
         },
@@ -38,6 +38,7 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id}) =>
 
     return (
         <div className="container mt-3">
+            <Row><h2>Variant effects for {variant_id}</h2></Row>
             <Row>
                 <Col xs={2}>
                     <BoxPlot
