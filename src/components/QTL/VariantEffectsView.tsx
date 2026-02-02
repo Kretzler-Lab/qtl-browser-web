@@ -1,5 +1,4 @@
-import {FC} from 'react';
-import Plot from 'react-plotly.js';
+import type {FC} from 'react';
 import {Row, Col} from 'reactstrap';
 import {BoxPlot} from "./BoxPlot.tsx";
 
