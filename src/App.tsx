@@ -1,7 +1,90 @@
-import { Container } from "reactstrap"
+import { useState } from "react";
+import { Col, Container, Row } from "reactstrap"
 import ConceptSelect from "./components/ConceptSelect/ConceptSelect"
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import type { ColDef } from 'ag-grid-community';
+ModuleRegistry.registerModules([AllCommunityModule]);
+import { AgGridReact } from 'ag-grid-react';
+
+
+type RowData = {
+  geneSymbol: string;
+  variantLoci: string;
+  tssDistance: number;
+  maf: number;
+  pVal: number;
+  slope: number;
+  slopeStdErr: number;
+  diagnosisCohort: string;
+};
 
 export function App() {
+
+  const [columns] = useState<ColDef<RowData>[]>([
+    {
+      headerName: "Gene Symbol",
+      field: "geneSymbol",
+      sortable: true,
+    },
+    {
+      headerName: "Variant Loci",
+      field: "variantLoci",
+      sortable: true,
+    },
+    {
+      headerName: "TSS Distance",
+      field: "tssDistance",
+      sortable: true,
+    },
+    {
+      headerName: "MAF",
+      field: "maf",
+      sortable: true,
+    },
+    {
+      headerName: "PVAL",
+      field: "pVal",
+      sortable: true,
+    },
+    {
+      headerName: "Slope",
+      field: "slope",
+      sortable: true,
+    },
+    {
+      headerName: "Slope STD Err",
+      field: "slopeStdErr",
+      sortable: true,
+    },
+    {
+      headerName: "Diagnosis Cohort",
+      field: "diagnosisCohort",
+      sortable: true,
+    }
+  ]);
+  
+  const rows: RowData[] = [
+    {
+    geneSymbol: "NPHS2",
+    variantLoci: "1:207411681:A:G",
+    tssDistance: -1500,
+    maf: 0.12,
+    pVal: 0.00034,
+    slope: 0.45,
+    slopeStdErr: 0.12,
+    diagnosisCohort: "FSGS"
+  },
+  {
+    geneSymbol: "WT1",
+    variantLoci: "11:32456789:C:T",
+    tssDistance: 500,
+    maf: 0.08,
+    pVal: 0.0021,
+    slope: -0.32,
+    slopeStdErr: 0.09,
+    diagnosisCohort: "MCD"
+  }
+];
 
   return (
     <div>
@@ -15,6 +98,17 @@ export function App() {
       <Container className='mt-3 rounded border p-3 shadow-sm'>
         <h5>Results</h5>
         <p>Some more placeholder text. <br />And the Raven, never flitting, still is sitting- still is sitting <br/> on the pallid bust of Pallas just above my chamber door.</p>
+        <Row className="mt-4">
+          <Col xs='12'>
+          <AgGridReact 
+            rowData={rows}
+            columnDefs={columns}
+            domLayout='autoHeight'
+            autoSizeStrategy={{type: 'fitGridWidth'}}
+          />
+          </Col>
+          <small><span>* chrom-pos-ref-alternate</span></small>
+        </Row>
       </Container>
     </div>
   )
