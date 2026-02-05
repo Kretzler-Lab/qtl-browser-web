@@ -27,7 +27,7 @@ export function App() {
       sortable: true,
     },
     {
-      headerName: "Variant Loci",
+      headerName: "Variant Loci*",
       field: "variantLoci",
       sortable: true,
     },
