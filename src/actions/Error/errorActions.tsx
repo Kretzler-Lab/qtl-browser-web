@@ -17,7 +17,7 @@ export const handleErrorWithoutRedirect = (error: string) => {
 
 export const sendMessageToBackend = (error: string, useRedirect: boolean = true) => {
   return (dispatch : Function) => {
-      api.post('/explorer/v1/error', error)
+      api.post('/v1/error', error)
       .then(() => {
         if (useRedirect) {
           dispatch(handleError(error));
