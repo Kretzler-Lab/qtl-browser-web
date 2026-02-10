@@ -3,9 +3,8 @@ import { Col, Container, Row } from "reactstrap"
 import ConceptSelect from "./components/ConceptSelect/ConceptSelect"
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import type { ColDef } from 'ag-grid-community';
-ModuleRegistry.registerModules([AllCommunityModule]);
 import { AgGridReact } from 'ag-grid-react';
-
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 type RowData = {
   geneSymbol: string;
