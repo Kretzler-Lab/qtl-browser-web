@@ -27,8 +27,7 @@ class ConceptSelect extends React.Component<ConceptSelectProps, ConceptSelectSta
     formatOption(result: AutoCompleteResult, searchString: string) {
         let highlightedAliases : any = [];
         let aliasSection = undefined;
-        let aliases = result.aliases;
-        if (aliases) {
+        if (result.aliases) {
             highlightedAliases = result.aliases.map((item, index) =>
                 item.toLowerCase().includes(searchString.toLowerCase()) ? <strong>{index > 0 && ', '}{item}</strong> : <span>{index > 0 && ', '}{item}</span>
                 , this);

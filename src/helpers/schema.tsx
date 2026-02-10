@@ -4,5 +4,6 @@ export type AutoCompleteResult = {
     type: string;
     id: string;
     ensg_id: string;
-    aliases: string[];
+    aliases: string[] | null;
+    __typename: string;
 }
