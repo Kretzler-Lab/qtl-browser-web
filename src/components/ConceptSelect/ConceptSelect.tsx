@@ -71,7 +71,7 @@ class ConceptSelect extends React.Component<ConceptSelectProps, ConceptSelectSta
     }
 
     getOptions = async (searchString: string) => {
-        const results = await fetchAutoComplete("um");
+        const results = await fetchAutoComplete(searchString);
         if (results) {
             let filteredResults = await this.filterBySearchType(results);
             return filteredResults.map((result) => this.formatOption(result, searchString), this);
