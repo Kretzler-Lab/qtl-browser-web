@@ -3,9 +3,8 @@ import { Col, Container, Row } from "reactstrap"
 import ConceptSelect from "./components/ConceptSelect/ConceptSelect"
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import type { ColDef } from 'ag-grid-community';
-ModuleRegistry.registerModules([AllCommunityModule]);
 import { AgGridReact } from 'ag-grid-react';
-
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 type RowData = {
   geneSymbol: string;
@@ -93,11 +92,10 @@ export function App() {
         <p>Here is some placeholder text.</p>
       </div>
       <Container className='mt-3 rounded border p-3 shadow-sm'>
-          <ConceptSelect selectedConcept=""/>
+          <ConceptSelect selectedConcept="" searchType={"gene"}/>
       </Container>
       <Container className='mt-3 rounded border p-3 shadow-sm'>
         <h5>Results</h5>
-        <p>Some more placeholder text. <br />And the Raven, never flitting, still is sitting- still is sitting <br/> on the pallid bust of Pallas just above my chamber door.</p>
         <Row className="mt-4">
           <Col xs='12'>
           <AgGridReact 
