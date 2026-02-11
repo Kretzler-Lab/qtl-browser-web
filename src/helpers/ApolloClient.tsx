@@ -51,9 +51,7 @@ export const fetchAutoComplete = async (searchString: string) => {
     }
 
     interface AutoCompleteData {
-        data: {
-            autocomplete: AutoCompleteResult[];
-        }
+        autocomplete: AutoCompleteResult[];
     }
     const GET_AUTO_COMPLETE = gql`
         query Autocomplete($searchTerm: String!) {
@@ -72,8 +70,8 @@ export const fetchAutoComplete = async (searchString: string) => {
         variables: { searchTerm: searchString }
     })
 
-    if (data && data.data.autocomplete) {
-        return data.data.autocomplete;
+    if (data && data.autocomplete) {
+        return data.autocomplete;
     } else {
         sendMessageToBackend("Could not retrieve autocomplete data: " + error?.message, true);
     }
