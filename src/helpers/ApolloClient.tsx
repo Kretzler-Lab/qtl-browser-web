@@ -55,7 +55,6 @@ export const fetchAutoComplete = async (searchString: string) => {
             autocomplete: AutoCompleteResult[];
         }
     }
-
     const GET_AUTO_COMPLETE = gql`
         query Autocomplete($searchTerm: String!) {
             autocomplete(searchTerm: $searchTerm) {

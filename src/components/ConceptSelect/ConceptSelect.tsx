@@ -4,13 +4,14 @@ import AsyncSelect from "react-select/async";
 import { fetchAutoComplete } from "../../helpers/ApolloClient";
 import type { AutoCompleteResult } from "../../helpers/schema";
 
-type ConceptSelectProps = {
-    selectedConcept: any,
-    searchType: any
+interface ConceptSelectProps {
+    selectedConcept: any;
+    searchType: any;
 }
 
 type ConceptSelectState = {
     inputValue: string;
+    searchType: string;
 }
 
 const messages = {
@@ -20,11 +21,16 @@ const messages = {
 
 
 class ConceptSelect extends React.Component<ConceptSelectProps, ConceptSelectState> {
-    state: ConceptSelectState = {
-        inputValue: this.props.selectedConcept.value
-    };
+
+    constructor(props: ConceptSelectProps) {
+        super(props);
+        this.state = {
+            inputValue: this.props.selectedConcept.value,
+            searchType: this.props.searchType
+        }
+    }
     
-    formatOption(result: AutoCompleteResult, searchString: string) {
+    formatOption = (result: AutoCompleteResult, searchString: string) => {
         let highlightedAliases : any = [];
         let aliasSection = undefined;
         if (result.aliases) {
@@ -56,21 +62,21 @@ class ConceptSelect extends React.Component<ConceptSelectProps, ConceptSelectSta
         }
     };
 
-    async getOptions(searchString: string) {
-        const results = await fetchAutoComplete(searchString);
-        if (results) {
-            const filteredResults = this.filterBySearchType(results);
-            return filteredResults.map((result) => this.formatOption(result, searchString), this);
-        }
-        return [];
-    }
-
-    filterBySearchType(results: AutoCompleteResult[]) {
+    filterBySearchType = (results: AutoCompleteResult[]) => {
         if(!this.props.searchType || this.props.searchType === 'all') {
             return results;
         } else {
             return results.filter((result) => this.props.searchType === result.type)
         }
+    }
+
+    getOptions = async (searchString: string) => {
+        const results = await fetchAutoComplete("um");
+        if (results) {
+            let filteredResults = await this.filterBySearchType(results);
+            return filteredResults.map((result) => this.formatOption(result, searchString), this);
+        }
+        return [];
     }
 
     render() {
@@ -92,7 +98,9 @@ class ConceptSelect extends React.Component<ConceptSelectProps, ConceptSelectSta
                                 placeholder="Please enter a gene symbol"
                                 noOptionsMessage={({inputValue}) => {
                                     if (inputValue.trim().length < 2) return messages.initial; 
-                                    return messages.noOption;}} />
+                                    return messages.noOption;}}
+                                menuPortalTarget={document.body}
+                                styles={{ menuPortal: base => ({ ...base, zIndex: 10 }) }} />
                         </article>
                     </Col>
                 </Row>
