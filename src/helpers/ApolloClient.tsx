@@ -5,12 +5,7 @@ import { sendMessageToBackend } from "../actions/Error/errorActions";
 import packageJson from '../../package.json';
 
 const isDevelopment = () => {
-    if(import.meta.env.VITE_NODE_ENV === "development"){
-      
-      return true;
-    }else{
-      return false
-    }
+    return import.meta.env.MODE === "development";
 };
 
 

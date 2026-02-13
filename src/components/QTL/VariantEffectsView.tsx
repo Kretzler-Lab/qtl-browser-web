@@ -71,27 +71,27 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
             <Row>
                 <Col xs={2}>
                     <BoxPlot
-                        data = {boxplot_data["FSGS"]}
+                        data = {boxplot_data["FSGS"] || {}}
                         />
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        data = {boxplot_data["igAN"]}
+                        data = {boxplot_data["igAN"] || {}}
                     />
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        data = {boxplot_data["IgAV"]}
+                        data = {boxplot_data["IgAV"] || {}}
                     />
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        data = {boxplot_data["MCD"]}
+                        data = {boxplot_data["MCD"] || {}}
                     />
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        data = {boxplot_data["MN"]}
+                        data = {boxplot_data["MN"] || {}}
                     />
                 </Col>
                 <Col xs={2}>
