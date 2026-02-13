@@ -2,9 +2,22 @@ import { ApolloClient, HttpLink, gql, CombinedGraphQLErrors, CombinedProtocolErr
 import { ErrorLink } from "@apollo/client/link/error";
 import type { AutoCompleteResult } from "./schema";
 import { sendMessageToBackend } from "../actions/Error/errorActions";
+import packageJson from '../../package.json';
+
+const isDevelopment = () => {
+    if(import.meta.env.VITE_NODE_ENV === "development"){
+      
+      return true;
+    }else{
+      return false
+    }
+};
 
 
 const getBaseURL = () => {
+    if (isDevelopment()) {
+        return packageJson.proxy;
+    }
     return '';
 };
 
@@ -76,3 +89,4 @@ export const fetchAutoComplete = async (searchString: string) => {
         sendMessageToBackend("Could not retrieve autocomplete data: " + error?.message, true);
     }
 }
+
