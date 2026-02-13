@@ -42,3 +42,4 @@ export type QtlId = {
     dx: string;
 };
 
+export type Gene = string;

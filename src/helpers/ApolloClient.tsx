@@ -2,13 +2,23 @@ import { ApolloClient, HttpLink, gql, CombinedGraphQLErrors, CombinedProtocolErr
 import { ErrorLink } from "@apollo/client/link/error";
 import type {AutoCompleteResult, BoxplotVizData} from "./schema";
 import { sendMessageToBackend } from "../actions/Error/errorActions";
+import packageJson from '../../package.json';
+
+const isDevelopment = () => {
+    if(import.meta.env.VITE_NODE_ENV === "development"){
+      
+      return true;
+    }else{
+      return false
+    }
+};
 
 
 const getBaseURL = () => {
-    if (process.env.NODE_ENV === 'development') {
-        return 'http://localhost:3030';
+    if (isDevelopment()) {
+        return packageJson.proxy;
     }
-    return ''
+    return '';
 };
 
 const httpLink = new HttpLink({
