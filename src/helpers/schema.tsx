@@ -7,3 +7,5 @@ export type AutoCompleteResult = {
     aliases: string[] | null;
     __typename: string;
 }
+
+export type Gene = string;
