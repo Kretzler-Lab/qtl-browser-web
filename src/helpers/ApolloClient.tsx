@@ -1,11 +1,12 @@
 import { ApolloClient, HttpLink, gql, CombinedGraphQLErrors, CombinedProtocolErrors, InMemoryCache, ApolloLink } from "@apollo/client";
 import { ErrorLink } from "@apollo/client/link/error";
-import type { AutoCompleteResult } from "./schema";
+import type {AutoCompleteResult, BoxplotVizData} from "./schema";
 import { sendMessageToBackend } from "../actions/Error/errorActions";
 
 
 const getBaseURL = () => {
-    return '';
+    //return '';
+    return 'http://localhost:3030'
 };
 
 const httpLink = new HttpLink({
@@ -74,5 +75,48 @@ export const fetchAutoComplete = async (searchString: string) => {
         return data.autocomplete;
     } else {
         sendMessageToBackend("Could not retrieve autocomplete data: " + error?.message, true);
+    }
+}
+
+export const fetchBoxplotData = async (variant_id: string, ensg_id: string) => {
+
+    interface BoxplotVizDataResponse {
+        boxplot: BoxplotVizData[];
+    }
+
+    const GET_BOXPLOT_DATA = gql`
+        query Boxplot($variantId: String!, $ensgId: String!) {
+            getBoxplotData(variantId: $variantId, ensgId: $ensgId) {
+                disease
+                groups {
+                    genotype
+                    count
+                    phenotypes
+                }
+                qtl {
+                    id {
+                        ensgId
+                        variantId
+                        dx
+                    }
+                    tssDistance
+                    maf
+                    pval
+                    slope
+                    slopeSe
+                }
+
+            }
+        }`;
+
+    const { error, data } = await apolloClient.query<BoxplotVizDataResponse>({
+        query: GET_BOXPLOT_DATA,
+        variables: { variantId: variant_id, ensgId: ensg_id }
+    })
+
+    if (data && data.getBoxplotData) {
+        return data.getBoxplotData;
+    } else {
+        sendMessageToBackend("Could not retrieve boxplot data: " + error?.message, true);
     }
 }
