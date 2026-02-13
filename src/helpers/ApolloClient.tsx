@@ -5,8 +5,10 @@ import { sendMessageToBackend } from "../actions/Error/errorActions";
 
 
 const getBaseURL = () => {
-    //return '';
-    return 'http://localhost:3030'
+    if (process.env.NODE_ENV === 'development') {
+        return 'http://localhost:3030';
+    }
+    return ''
 };
 
 const httpLink = new HttpLink({
