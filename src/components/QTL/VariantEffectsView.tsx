@@ -22,34 +22,36 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
                 const box_data = await fetchBoxplotData(variant_id, ensg_id);
 
                 // Create a map keyed by disease
-                const mappedDiseases = Object.values(box_data).reduce((acc, curr) => {
+                const mappedDiseases: unknown = Object.values(box_data).reduce((acc: unknown, curr: unknown) => {
                     acc[curr.disease] = (curr as BoxplotVizData);
                     return acc;
                 }, {} as Record<string, BoxplotVizData>);
 
                 const colors = ['#636EFA', '#EF553B', '#00CC96'];
-                const plotsByDisease = Object.keys(mappedDiseases).reduce((acc, disease) => {
-                    const diseaseData = mappedDiseases[disease];
+                if (mappedDiseases instanceof Object) {
+                    const plotsByDisease = Object.keys(mappedDiseases).reduce((acc, disease) => {
+                        const diseaseData = mappedDiseases[disease];
 
-                    acc[disease] = diseaseData.groups.map((group, index) => ({
-                        x: group.phenotypes.map(() => `${group.genotype}`),
-                        y: group.phenotypes.map(val => parseFloat(val)),
-                        name: `${group.genotype}`,
-                        type: 'box',
-                        marker: {
-                            color: colors[index % colors.length]
-                        },
-                        boxpoints: 'all',
-                        jitter: 0.3,
-                        pointpos: -1.8
-                    }));
-                    acc[disease]["disease"] = disease
-                    acc[disease]["gene"] = ensg_id
-                    acc[disease]["variant"] = variant_id
-                    return acc;
-                }, {} as Record<string, any[]>);
+                        acc[disease] = diseaseData.groups.map((group: any, index: any) => ({
+                            x: group.phenotypes.map(() => `${group.genotype}`),
+                            y: group.phenotypes.map(val => parseFloat(val)),
+                            name: `${group.genotype}`,
+                            type: 'box',
+                            marker: {
+                                color: colors[index % colors.length]
+                            },
+                            boxpoints: 'all',
+                            jitter: 0.3,
+                            pointpos: -1.8
+                        }));
+                        acc[disease]["disease"] = disease
+                        acc[disease]["gene"] = ensg_id
+                        acc[disease]["variant"] = variant_id
+                        return acc;
+                    }, {} as Record<string, any[]>);
+                    setBoxplotData(plotsByDisease);
+                }
 
-                setBoxplotData(plotsByDisease);
             } catch (error) {
                 console.error("Failed to fetch boxplot data", error);
             } finally {

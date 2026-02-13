@@ -12,7 +12,6 @@ interface BoxPlotProps {
 }
 
 export const BoxPlot: FC<BoxPlotProps> = ({data}) => {
-    console.log(data)
     return (
         <Plot
             data={data}
