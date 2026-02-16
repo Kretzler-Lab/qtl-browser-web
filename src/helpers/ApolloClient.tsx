@@ -4,11 +4,6 @@ import type {AutoCompleteResult, BoxplotVizData} from "./schema";
 import { sendMessageToBackend } from "../actions/Error/errorActions";
 import packageJson from '../../package.json';
 
-export interface BoxplotVizDataResponse {
-    getBoxplotData: BoxplotVizDataResponse | undefined;
-    boxplot: BoxplotVizData[];
-}
-
 const isDevelopment = () => {
     return import.meta.env.MODE === "development";
 };
@@ -90,7 +85,11 @@ export const fetchAutoComplete = async (searchString: string) => {
     }
 }
 
-export const fetchBoxplotData = async (variant_id: string, ensg_id: string) => {
+export const fetchBoxplotData = async (variant_id: string, ensg_id: string): Promise<BoxplotVizData[]> => {
+
+    interface BoxplotVizDataResponse {
+        getBoxplotData: BoxplotVizData[]
+    }
 
     const GET_BOXPLOT_DATA = gql`
         query Boxplot($variantId: String!, $ensgId: String!) {
@@ -125,6 +124,7 @@ export const fetchBoxplotData = async (variant_id: string, ensg_id: string) => {
     if (data && data.getBoxplotData) {
         return data.getBoxplotData;
     } else {
+        return [];
         sendMessageToBackend("Could not retrieve boxplot data: " + error?.message, true);
     }
 }
