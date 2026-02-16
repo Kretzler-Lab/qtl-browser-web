@@ -21,6 +21,7 @@ export type BoxplotData = {
 };
 
 export type BoxplotVizData = {
+    groups: any;
     disease: string;
     boxplotData: BoxplotData[];
     counts: BoxplotCount[];
