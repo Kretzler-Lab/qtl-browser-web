@@ -19,7 +19,7 @@ export interface DiseasePlotContainer {
 
 export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ensg_id}) => {
 
-    const [boxplot_data, setBoxplotData] = useState({});
+    const [boxplot_data, setBoxplotData] = useState<Record<string, DiseasePlotContainer>>({});
     const [loading, setLoading] = useState(true);
 
 
@@ -30,7 +30,7 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
                 const box_data = await fetchBoxplotData(variant_id, ensg_id);
 
                 // Create a map keyed by disease
-                const mappedDiseases: unknown = Object.values(box_data).reduce((acc: unknown, curr: unknown) => {
+                const mappedDiseases: unknown = Object.values(box_data).reduce((acc: any, curr: any) => {
                     acc[curr.disease] = (curr as BoxplotVizData);
                     return acc;
                 }, {} as Record<string, BoxplotVizData>);
@@ -41,12 +41,11 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
                 const plotsByDisease = Object.keys(mappedDiseases).reduce((acc, disease) => {
                     const diseaseData = mappedDiseases[disease];
 
-                    // 1. Generate the array of traces
                     const traces: Data[] = diseaseData.groups.map((group: any, index: number) => ({
                         x: group.phenotypes.map(() => `${group.genotype}`),
                         y: group.phenotypes.map((val: any) => parseFloat(val)),
                         name: `${group.genotype}`,
-                        type: 'box', // TS now knows this is a Box plot trace
+                        type: 'box',
                         marker: {
                             color: colors[index % colors.length]
                         },
@@ -55,7 +54,6 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
                         pointpos: -1.8
                     }));
 
-                    // 2. Assign the object to the accumulator
                     acc[disease] = {
                         plotData: traces,
                         disease: disease,
@@ -87,31 +85,31 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
             <Row><h2>Variant effects for {variant_id}</h2></Row>
             <Row>
                 <Col xs={2}>
-                    <BoxPlot plotData={boxplot_data["FSGS"] || {}}/>
+                    <BoxPlot plotData={boxplot_data["FSGS"]}/>
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        plotData={boxplot_data["igAN"] || {}}
+                        plotData={boxplot_data["igAN"]}
                     />
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        plotData={boxplot_data["IgAV"] || {}}
+                        plotData={boxplot_data["IgAV"]}
                     />
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        plotData={boxplot_data["MCD"] || {}}
+                        plotData={boxplot_data["MCD"]}
                     />
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        plotData={boxplot_data["MN"] || {}}
+                        plotData={boxplot_data["MN"]}
                     />
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        plotData={boxplot_data["all_com"] || {}}
+                        plotData={boxplot_data["all_com"]}
                     />
                 </Col>
             </Row>
