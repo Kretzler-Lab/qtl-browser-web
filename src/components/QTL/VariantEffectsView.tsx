@@ -32,6 +32,7 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
                 if (!box_data) {
                     return {};
                 }
+
                 // Create a map keyed by disease
                 const mappedDiseases: Record<string, BoxplotVizData> = Object.values(box_data).reduce<Record<string, BoxplotVizData>>((acc: any, curr: any) => {
                     acc[curr.disease] = (curr as BoxplotVizData);
@@ -40,7 +41,7 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
 
                 const colors = ['#636EFA', '#EF553B', '#00CC96'];
 
-
+                // Parse out plot data for each disease
                 const plotsByDisease = Object.keys(mappedDiseases as Object).reduce<Record<string, DiseasePlotContainer>>((acc, disease) => {
                     const diseaseData = mappedDiseases[disease];
 
