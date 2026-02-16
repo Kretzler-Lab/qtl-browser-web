@@ -88,6 +88,7 @@ export const fetchAutoComplete = async (searchString: string) => {
 export const fetchBoxplotData = async (variant_id: string, ensg_id: string) => {
 
     interface BoxplotVizDataResponse {
+        getBoxplotData: BoxplotVizDataResponse | undefined;
         boxplot: BoxplotVizData[];
     }
 
