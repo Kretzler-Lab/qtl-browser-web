@@ -1,16 +1,11 @@
 import { ApolloClient, HttpLink, gql, CombinedGraphQLErrors, CombinedProtocolErrors, InMemoryCache, ApolloLink } from "@apollo/client";
 import { ErrorLink } from "@apollo/client/link/error";
-import type { AutoCompleteResult } from "./schema";
+import type {AutoCompleteResult, BoxplotVizData} from "./schema";
 import { sendMessageToBackend } from "../actions/Error/errorActions";
 import packageJson from '../../package.json';
 
 const isDevelopment = () => {
-    if(import.meta.env.VITE_NODE_ENV === "development"){
-      
-      return true;
-    }else{
-      return false
-    }
+    return import.meta.env.MODE === "development";
 };
 
 
@@ -90,3 +85,46 @@ export const fetchAutoComplete = async (searchString: string) => {
     }
 }
 
+export const fetchBoxplotData = async (variant_id: string, ensg_id: string): Promise<BoxplotVizData[]> => {
+
+    interface BoxplotVizDataResponse {
+        getBoxplotData: BoxplotVizData[]
+    }
+
+    const GET_BOXPLOT_DATA = gql`
+        query Boxplot($variantId: String!, $ensgId: String!) {
+            getBoxplotData(variantId: $variantId, ensgId: $ensgId) {
+                disease
+                groups {
+                    genotype
+                    count
+                    phenotypes
+                }
+                qtl {
+                    id {
+                        ensgId
+                        variantId
+                        dx
+                    }
+                    tssDistance
+                    maf
+                    pval
+                    slope
+                    slopeSe
+                }
+
+            }
+        }`;
+
+    const { error, data } = await apolloClient.query<BoxplotVizDataResponse>({
+        query: GET_BOXPLOT_DATA,
+        variables: { variantId: variant_id, ensgId: ensg_id }
+    })
+
+    if (data && data.getBoxplotData) {
+        return data.getBoxplotData;
+    } else {
+        return [];
+        sendMessageToBackend("Could not retrieve boxplot data: " + error?.message, true);
+    }
+}

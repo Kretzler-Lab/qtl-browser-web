@@ -13,8 +13,8 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <NavBar />
       <Routes>
-        <Route path='/' element={<App />}/>
-        <Route path='effects' element={<VariantEffectsView variant_id={"chr1-96150-G-A"}/>}/>
+        <Route path='/' element={<App />} />
+        <Route path='effects' element={<VariantEffectsView variant_id={"chr22-42091896-G-A"} ensg_id={"ENSG00000183172"}/>} />
       </Routes>
     </BrowserRouter>
   </Provider >
