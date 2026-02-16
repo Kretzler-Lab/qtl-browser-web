@@ -76,8 +76,9 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
 
     const handleSelect = (selected: any) => {
       if (selected !== null) {
-        if (selected.value.type === "gene"){
-          dispatch(setAutoComplete(selected.value.value));
+        const result = selected.value as AutoCompleteResult;
+        if (result.type === "gene"){
+          dispatch(setAutoComplete(result));
         }
       }
     }
