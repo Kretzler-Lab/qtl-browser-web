@@ -2,7 +2,7 @@ import {type FC, useEffect, useState} from 'react';
 import {Row, Col} from 'reactstrap';
 import {BoxPlot} from "./BoxPlot.tsx";
 import type {Data} from 'plotly.js';
-import {fetchBoxplotData} from "../../helpers/ApolloClient.tsx";
+import {type BoxplotVizDataResponse, fetchBoxplotData} from "../../helpers/ApolloClient.tsx";
 import type {BoxplotVizData} from "../../helpers/schema.tsx";
 
 interface VariantEffectsViewProps {
@@ -27,8 +27,11 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
         const getData = async () => {
             setLoading(true);
             try {
-                const box_data = await fetchBoxplotData(variant_id, ensg_id);
+                const box_data: BoxplotVizDataResponse | undefined = await fetchBoxplotData(variant_id, ensg_id);
 
+                if (!box_data) {
+                    return {};
+                }
                 // Create a map keyed by disease
                 const mappedDiseases: Record<string, BoxplotVizData> = Object.values(box_data).reduce<Record<string, BoxplotVizData>>((acc: any, curr: any) => {
                     acc[curr.disease] = (curr as BoxplotVizData);
