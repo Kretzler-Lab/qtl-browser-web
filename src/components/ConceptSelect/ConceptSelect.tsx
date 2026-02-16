@@ -5,6 +5,7 @@ import { fetchAutoComplete } from "../../helpers/ApolloClient";
 import type { AutoCompleteResult } from "../../helpers/schema";
 import { useAppDispatch } from "../../app/hooks";
 import { setGene } from "../../features/gene/geneSlice";
+import { setAutoComplete } from "../../features/autocomplete/autocompleteSlice";
 
 interface ConceptSelectProps {
     selectedConcept: any;
@@ -73,6 +74,14 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
         return value;
     };
 
+    const handleSelect = (selected: any) => {
+      if (selected !== null) {
+        if (selected.value.type === "gene"){
+          dispatch(setAutoComplete(selected.value.value));
+        }
+      }
+    }
+
     return (
         <React.Fragment>
             <Row xs="12">
@@ -88,6 +97,7 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
                             inputValue={inputValue}
                             loadOptions={getOptions}
                             onInputChange={handleInputChange}
+                            onChange={handleSelect}
                             placeholder="Please enter a gene symbol"
                             noOptionsMessage={({ inputValue }) => {
                                 if (inputValue.trim().length < 2) return messages.initial;
