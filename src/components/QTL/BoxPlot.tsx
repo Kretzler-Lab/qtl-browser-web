@@ -1,20 +1,15 @@
 import type {FC} from 'react';
 import Plot from 'react-plotly.js';
+import type {DiseasePlotContainer} from './VariantEffectsView.tsx'
 
 interface BoxPlotProps {
-    data: {
-        x: number[],
-        y: number[];
-        name: string;
-        gene: string;
-        disease: string;
-    };
+        plotData: DiseasePlotContainer
 }
 
-export const BoxPlot: FC<BoxPlotProps> = ({data}) => {
+export const BoxPlot: FC<BoxPlotProps> = ({plotData}) => {
     return (
         <Plot
-            data={data}
+            data={plotData.plotData}
             layout={{
                 width: 200,
                 height: 300,
@@ -27,14 +22,14 @@ export const BoxPlot: FC<BoxPlotProps> = ({data}) => {
                 },
                 xaxis: {
                     title: {
-                        text: data.disease,
+                        text: plotData.disease,
                         font: { family: 'Arial, sans-serif', size: 14, color: '#333' },
                         standoff: 40
                     }
                 },
                 yaxis: {
                     title: {
-                        text: data.gene + ' expression',
+                        text: plotData.gene + ' expression',
                         font: {family: 'Arial, sans-serif', size: 14, color: '#333'},
                         standoff: 40
                     },

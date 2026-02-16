@@ -1,6 +1,7 @@
 import {type FC, useEffect, useState} from 'react';
 import {Row, Col} from 'reactstrap';
 import {BoxPlot} from "./BoxPlot.tsx";
+import type {Data} from 'plotly.js';
 import {fetchBoxplotData} from "../../helpers/ApolloClient.tsx";
 import type {BoxplotVizData} from "../../helpers/schema.tsx";
 
@@ -9,9 +10,16 @@ interface VariantEffectsViewProps {
     ensg_id: string;
 }
 
+export interface DiseasePlotContainer {
+    plotData: Data[];
+    disease: string;
+    gene: string;
+    variant: string;
+}
+
 export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ensg_id}) => {
 
-    const [boxplot_data, setBoxplotData] = useState(null);
+    const [boxplot_data, setBoxplotData] = useState({});
     const [loading, setLoading] = useState(true);
 
 
@@ -28,29 +36,38 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
                 }, {} as Record<string, BoxplotVizData>);
 
                 const colors = ['#636EFA', '#EF553B', '#00CC96'];
-                if (mappedDiseases instanceof Object) {
-                    const plotsByDisease = Object.keys(mappedDiseases).reduce((acc, disease) => {
-                        const diseaseData = mappedDiseases[disease];
 
-                        acc[disease] = diseaseData.groups.map((group: any, index: any) => ({
-                            x: group.phenotypes.map(() => `${group.genotype}`),
-                            y: group.phenotypes.map(val => parseFloat(val)),
-                            name: `${group.genotype}`,
-                            type: 'box',
-                            marker: {
-                                color: colors[index % colors.length]
-                            },
-                            boxpoints: 'all',
-                            jitter: 0.3,
-                            pointpos: -1.8
-                        }));
-                        acc[disease]["disease"] = disease
-                        acc[disease]["gene"] = ensg_id
-                        acc[disease]["variant"] = variant_id
-                        return acc;
-                    }, {} as Record<string, any[]>);
+
+                const plotsByDisease = Object.keys(mappedDiseases).reduce((acc, disease) => {
+                    const diseaseData = mappedDiseases[disease];
+
+                    // 1. Generate the array of traces
+                    const traces: Data[] = diseaseData.groups.map((group: any, index: number) => ({
+                        x: group.phenotypes.map(() => `${group.genotype}`),
+                        y: group.phenotypes.map((val: any) => parseFloat(val)),
+                        name: `${group.genotype}`,
+                        type: 'box', // TS now knows this is a Box plot trace
+                        marker: {
+                            color: colors[index % colors.length]
+                        },
+                        boxpoints: 'all',
+                        jitter: 0.3,
+                        pointpos: -1.8
+                    }));
+
+                    // 2. Assign the object to the accumulator
+                    acc[disease] = {
+                        plotData: traces,
+                        disease: disease,
+                        gene: ensg_id,
+                        variant: variant_id
+                    };
+
+                    return acc;
+                }, {} as Record<string, DiseasePlotContainer>);
+
                     setBoxplotData(plotsByDisease);
-                }
+
 
             } catch (error) {
                 console.error("Failed to fetch boxplot data", error);
@@ -70,33 +87,31 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
             <Row><h2>Variant effects for {variant_id}</h2></Row>
             <Row>
                 <Col xs={2}>
-                    <BoxPlot
-                        data = {boxplot_data["FSGS"] || {}}
-                        />
+                    <BoxPlot plotData={boxplot_data["FSGS"] || {}}/>
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        data = {boxplot_data["igAN"] || {}}
+                        plotData={boxplot_data["igAN"] || {}}
                     />
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        data = {boxplot_data["IgAV"] || {}}
+                        plotData={boxplot_data["IgAV"] || {}}
                     />
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        data = {boxplot_data["MCD"] || {}}
+                        plotData={boxplot_data["MCD"] || {}}
                     />
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        data = {boxplot_data["MN"] || {}}
+                        plotData={boxplot_data["MN"] || {}}
                     />
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        data = {boxplot_data["all_com"]}
+                        plotData={boxplot_data["all_com"] || {}}
                     />
                 </Col>
             </Row>
