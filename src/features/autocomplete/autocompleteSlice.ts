@@ -2,11 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { AutoCompleteResult } from "../../helpers/schema";
 
 const initialState = {
-    autocomplete: [] as AutoCompleteResult[]
+    autocomplete: [{
+        value: "",
+        name: "",
+        type: "",
+        id: "",
+        __typename: "",
+        aliases: [],
+        ensg_id: ""
+    }] as AutoCompleteResult[]
 };
 
 const autoCompleteSlice = createSlice({
-    name: "autoComplete",
+    name: "autocomplete",
     initialState,
     reducers: {
         setAutoComplete(state, action) {
