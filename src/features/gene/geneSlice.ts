@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { Gene } from "../../helpers/schema";
 
 const initialState = {
-    gene: "" as Gene
+    geneResult: "" as Gene
 }
 
 const geneSlice = createSlice({
@@ -10,7 +10,7 @@ const geneSlice = createSlice({
     initialState,
     reducers: {
         setGene(state, action) {
-            state.gene = action.payload;
+            state.geneResult = action.payload;
         }
     }
 })
