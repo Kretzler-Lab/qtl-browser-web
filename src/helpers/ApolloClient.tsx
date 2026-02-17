@@ -1,6 +1,6 @@
 import { ApolloClient, HttpLink, gql, CombinedGraphQLErrors, CombinedProtocolErrors, InMemoryCache, ApolloLink } from "@apollo/client";
 import { ErrorLink } from "@apollo/client/link/error";
-import type {AutoCompleteResult, BoxplotVizData} from "./schema";
+import type {AutocompleteResult, BoxplotVizData} from "./schema";
 import { sendMessageToBackend } from "../actions/Error/errorActions";
 import packageJson from '../../package.json';
 
@@ -53,13 +53,46 @@ export const apolloClient = new ApolloClient({
     link: ApolloLink.from([errorLink, httpLink])
 })
 
-export const fetchAutoComplete = async (searchString: string) => {
+export const fetchFindByIdEnsgId = async (ensg_id: string) => {
+  interface GeneData{
+    findByIdEnsgId: AutocompleteResult;
+  }
+
+  const GET_GENE_BY_ENSG_ID = gql`
+    query findByIdEnsgId($ensgId: String!) {
+        findByIdEnsgId(ensgId: $ensgId) {
+          id {
+            ensgId
+            variantId
+            dx
+          }
+          tssDistance
+          maf
+          pval
+          slope
+          slopeSe
+        }
+    }
+  `;
+  const { error, data } = await apolloClient.query<GeneData>({
+    query: GET_GENE_BY_ENSG_ID,
+    variables: { ensgId: ensg_id }
+  })
+
+  if (data && data.findByIdEnsgId) {
+    return data.findByIdEnsgId;
+  }else {
+    sendMessageToBackend("Could not retrieve gene data: " + error?.message, true);
+  }
+}
+
+export const fetchAutocomplete = async (searchString: string) => {
     if (searchString && searchString.trim().length < 2) {
         return [];
     }
 
-    interface AutoCompleteData {
-        autocomplete: AutoCompleteResult[];
+    interface AutocompleteData {
+        autocomplete: AutocompleteResult[];
     }
     const GET_AUTO_COMPLETE = gql`
         query Autocomplete($searchTerm: String!) {
@@ -73,7 +106,7 @@ export const fetchAutoComplete = async (searchString: string) => {
             }
         }`;
 
-    const { error, data } = await apolloClient.query<AutoCompleteData>({
+    const { error, data } = await apolloClient.query<AutocompleteData>({
         query: GET_AUTO_COMPLETE,
         variables: { searchTerm: searchString }
     })
@@ -124,7 +157,7 @@ export const fetchBoxplotData = async (variant_id: string, ensg_id: string): Pro
     if (data && data.getBoxplotData) {
         return data.getBoxplotData;
     } else {
-        return [];
         sendMessageToBackend("Could not retrieve boxplot data: " + error?.message, true);
+        return [];
     }
 }
