@@ -57,7 +57,6 @@ export function App() {
         ...row,
         gene: autocompleteResult.value
       })));
-      console.log(result)
       setRowData(result);
     } catch (error) {
       console.error("Error fetching gene data:", error);
