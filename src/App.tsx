@@ -21,7 +21,6 @@ type RowData = {
   pval: number;
   slope: number;
   slopeSe: number;
-  "id.dx": string;
 };
 
 export function App() {
