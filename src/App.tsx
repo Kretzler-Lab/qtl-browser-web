@@ -3,7 +3,7 @@ import { Col, Container, Row } from "reactstrap"
 import ConceptSelect from "./components/ConceptSelect/ConceptSelect"
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import type { ColDef } from 'ag-grid-community';
-import { AgGridReact } from 'ag-grid-react';
+import {AgGridReact, type CustomCellRendererProps} from 'ag-grid-react';
 import { fetchFindByIdEnsgId } from "./helpers/ApolloClient";
 import { useAppSelector } from "./app/hooks";
 import { Spinner} from "reactstrap";
@@ -39,7 +39,7 @@ export function App() {
 
 
 
-  const LinkRenderer = (params) => {
+  const LinkRenderer = (params: CustomCellRendererProps<RowData>) => {
       const handleClick = () => {
           dispatch(setVariant({
               ensgId: autocompleteResult && autocompleteResult.ensg_id,
@@ -109,7 +109,7 @@ export function App() {
       headerName: "Variant Loci*",
       field: "id.variantId",
       sortable: true,
-        cellRenderer: LinkRenderer
+      cellRenderer: LinkRenderer
     },
     {
       headerName: "TSS Distance",
