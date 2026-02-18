@@ -84,7 +84,7 @@ export function App() {
 
       const result: RowData[] = (data ?? []).map((row => ({
         ...row,
-        gene: autocompleteResult.value,
+        gene: autocompleteResult.value
       })));
       setRowData(result);
     } catch (error) {
