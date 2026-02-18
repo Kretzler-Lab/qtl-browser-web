@@ -3,7 +3,7 @@ import autocompleteReducer from "../features/autocomplete/autocompleteSlice.ts";
 import geneReducer from "../features/gene/geneSlice.ts";
 export const store = configureStore({
     reducer: {
-        autoComplete: autocompleteReducer,
+        autocomplete: autocompleteReducer,
         gene: geneReducer
     },
 });

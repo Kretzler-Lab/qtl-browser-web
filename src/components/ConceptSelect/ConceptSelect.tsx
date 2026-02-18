@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Row, Col } from 'reactstrap';
 import AsyncSelect from "react-select/async";
-import { fetchAutoComplete } from "../../helpers/ApolloClient";
-import type { AutoCompleteResult } from "../../helpers/schema";
+import { fetchAutocomplete } from "../../helpers/ApolloClient";
+import type { AutocompleteResult } from "../../helpers/schema";
 import { useAppDispatch } from "../../app/hooks";
 import { setGene } from "../../features/gene/geneSlice";
-import { setAutoComplete } from "../../features/autocomplete/autocompleteSlice";
+import { setAutocomplete } from "../../features/autocomplete/autocompleteSlice";
 
 interface ConceptSelectProps {
     selectedConcept: any;
@@ -21,7 +21,7 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
     const [inputValue, setInputValue] = useState(selectedConcept.value);
     const dispatch = useAppDispatch();
 
-    const formatOption = (result: AutoCompleteResult, searchString: string) => {
+    const formatOption = (result: AutocompleteResult, searchString: string) => {
         let highlightedAliases: any = [];
         let aliasSection = undefined;
         if (result.aliases) {
@@ -51,7 +51,7 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
         }
     };
 
-    const filterBySearchType = (results: AutoCompleteResult[]) => {
+    const filterBySearchType = (results: AutocompleteResult[]) => {
         if (!searchType || searchType === 'all') {
             return results;
         } else {
@@ -60,7 +60,7 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
     };
 
     const getOptions = async (searchString: string) => {
-        const results = await fetchAutoComplete(searchString);
+        const results = await fetchAutocomplete(searchString);
         if (results) {
             let filteredResults = filterBySearchType(results);
             return filteredResults.map((result) => formatOption(result, searchString));
@@ -76,9 +76,9 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
 
     const handleSelect = (selected: any) => {
       if (selected !== null) {
-        const result = selected.value as AutoCompleteResult;
+        const result = selected.value as AutocompleteResult;
         if (result.type === "gene"){
-          dispatch(setAutoComplete(result));
+          dispatch(setAutocomplete(result));
         }
       }
     }

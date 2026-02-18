@@ -1,4 +1,4 @@
-export type AutoCompleteResult = {
+export type AutocompleteResult = {
     value: string;
     name: string;
     type: string;

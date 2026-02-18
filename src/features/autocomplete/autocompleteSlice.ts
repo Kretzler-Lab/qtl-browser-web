@@ -1,19 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { AutoCompleteResult } from "../../helpers/schema";
+import type { AutocompleteResult } from "../../helpers/schema";
 
 const initialState = {
-    autocompleteResult: [] as AutoCompleteResult[]
+    autocompleteResult: null as AutocompleteResult | null
 };
 
-const autoCompleteSlice = createSlice({
+const autocompleteSlice = createSlice({
     name: "autocomplete",
     initialState,
     reducers: {
-        setAutoComplete(state, action) {
+        setAutocomplete(state, action) {
             state.autocompleteResult = action.payload;
         }
     }
 })
 
-export default autoCompleteSlice.reducer;
-export const {setAutoComplete} = autoCompleteSlice.actions;
+export default autocompleteSlice.reducer;
+export const {setAutocomplete} = autocompleteSlice.actions;
