@@ -39,23 +39,23 @@ export function App() {
 
 
 
-    const LinkRenderer = (params) => {
-        const handleClick = () => {
-            dispatch(setVariant({
-                ensgId: autocompleteResult && autocompleteResult.ensg_id,
-                variantId: params.value,
-                dx: ""
-            }))
-            navigate('/effects')
-        };
+  const LinkRenderer = (params) => {
+      const handleClick = () => {
+          dispatch(setVariant({
+              ensgId: autocompleteResult && autocompleteResult.ensg_id,
+              variantId: params.value,
+              dx: ""
+          }))
+          navigate('/effects')
+      };
 
-        return (
-            <span
-                onClick={handleClick}
-                style={{ color: '#007bff', cursor: 'pointer', textDecoration: 'underline' }}
-            >
-      {params.value}
-    </span>
+      return (
+          <span
+              onClick={handleClick}
+              style={{ color: '#007bff', cursor: 'pointer', textDecoration: 'underline' }}
+          >
+            {params.value}
+        </span>
         );
     };
 
