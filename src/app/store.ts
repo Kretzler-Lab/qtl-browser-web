@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import autocompleteReducer from "../features/autocomplete/autocompleteSlice.ts";
 import geneReducer from "../features/gene/geneSlice.ts";
+import variantReducer from "../features/variant/variantSlice.ts";
+
 export const store = configureStore({
     reducer: {
         autocomplete: autocompleteReducer,
-        gene: geneReducer
+        gene: geneReducer,
+        variant: variantReducer
     },
 });
 
