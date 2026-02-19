@@ -3,7 +3,7 @@ import { Row, Col } from 'reactstrap';
 import AsyncSelect from "react-select/async";
 import { fetchAutocomplete } from "../../helpers/ApolloClient";
 import type { AutocompleteResult } from "../../helpers/schema";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setGene } from "../../features/gene/geneSlice";
 import { setAutocomplete } from "../../features/autocomplete/autocompleteSlice";
 
@@ -18,7 +18,8 @@ const messages = {
 };
 
 const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchType }) => {
-    const [inputValue, setInputValue] = useState(selectedConcept.value);
+    const [inputValue, setInputValue] = useState<string>("");
+    const autocompleteResult: AutocompleteResult | null = useAppSelector((state) => state.autocomplete.autocompleteResult);
     const dispatch = useAppDispatch();
 
     const formatOption = (result: AutocompleteResult, searchString: string) => {
@@ -69,7 +70,6 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
     };
 
     const handleInputChange = (value: string) => {
-        dispatch(setGene(value));
         setInputValue(value);
         return value;
     };
@@ -79,6 +79,7 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
         const result = selected.value as AutocompleteResult;
         if (result.type === "gene"){
           dispatch(setAutocomplete(result));
+          dispatch(setGene(result.value));
         }
       }
     }
@@ -99,7 +100,7 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
                             loadOptions={getOptions}
                             onInputChange={handleInputChange}
                             onChange={handleSelect}
-                            placeholder="Please enter a gene symbol"
+                            placeholder={autocompleteResult?.value || "Please enter a gene symbol"}
                             noOptionsMessage={({ inputValue }) => {
                                 if (inputValue.trim().length < 2) return messages.initial;
                                 return messages.noOption;

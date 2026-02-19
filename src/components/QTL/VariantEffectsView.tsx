@@ -4,6 +4,7 @@ import {BoxPlot} from "./BoxPlot.tsx";
 import type {Data} from 'plotly.js';
 import {fetchBoxplotData} from "../../helpers/ApolloClient.tsx";
 import type {BoxplotVizData} from "../../helpers/schema.tsx";
+import { useAppSelector } from '../../app/hooks.ts';
 
 interface VariantEffectsViewProps {
     variant_id: string;
@@ -21,6 +22,7 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
 
     const [boxplot_data, setBoxplotData] = useState<Record<string, DiseasePlotContainer>>({});
     const [loading, setLoading] = useState(true);
+    const gene = useAppSelector((state) => state.gene.geneResult);
 
 
     useEffect(() => {
@@ -84,7 +86,15 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
 
     return (
         <div className="container mt-3">
-            <Row><h2>Variant effects for {variant_id}</h2></Row>
+            <Row xs={12}>
+              <Col xs={8} style={{"display":"flex", "alignItems":"center"}}>
+                <h5>Variant effects for {variant_id}</h5>
+              </Col>
+              <Col xs={4} className="text-end text-primary ">
+                <button onClick={() => {window.history.back()}} type='button' className='btn btn-link'>
+                  <h5><span style={{"fontSize":"26px"}}>&larr;</span> Results for {gene}</h5></button>
+              </Col>
+              </Row>
             <Row>
                 <Col xs={2}>
                     <BoxPlot plotData={boxplot_data["FSGS"]}/>
