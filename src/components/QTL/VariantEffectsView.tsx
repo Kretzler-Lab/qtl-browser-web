@@ -32,10 +32,6 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
             setLoading(true);
             try {
                 const box_data: BoxplotVizData[] = await fetchBoxplotData(variant_id, ensg_id);
-                console.log(box_data);
-                box_data.forEach((item, idx) => {
-                    console.log(`item.groups for index ${idx}:`, item.groups);
-                });
 
                 if (!box_data) {
                     setQtlInfoArray([]);
