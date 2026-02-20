@@ -4,6 +4,7 @@ import {BoxPlot} from "./BoxPlot.tsx";
 import type {Data} from 'plotly.js';
 import {fetchBoxplotData} from "../../helpers/ApolloClient.tsx";
 import type {BoxplotVizData} from "../../helpers/schema.tsx";
+import { VariantInfoTable } from './VariantInfoTable.tsx';
 
 interface VariantEffectsViewProps {
     variant_id: string;
@@ -114,6 +115,9 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
                         plotData={boxplot_data["all_com"]}
                     />
                 </Col>
+            </Row>
+            <Row>
+                <VariantInfoTable plotData={Object.values(boxplot_data)} />
             </Row>
         </div>
     );
