@@ -9,16 +9,14 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 type RowData = {
   gene?: string;
-  id?: {
-  variantId?: string;
-  dx?: string;
-  ensgId?: string;
-  };
+  disease?: string;
   tssDistance?: number;
   maf?: number;
   pval?: number;
   slope?: number;
-  numPatients?: number;
+  ggPatients?: number;
+  gaPatients?: number;
+  aaPatients?: number;
 };
 
 export const VariantInfoTable: FC<{plotData?: RowData[]}> = ({ plotData = [] }) => {
@@ -32,65 +30,47 @@ export const VariantInfoTable: FC<{plotData?: RowData[]}> = ({ plotData = [] }) 
     {
       headerName: "Disease",
       field: "disease",
-      sortable: true,
-      filter: true,
-      minWidth: 120,
+      sortable: true
     },
     {
       headerName: "MAF",
       field: "maf",
-      sortable: true,
-      filter: 'agNumberColumnFilter',
-      minWidth: 100,
+      sortable: true
     },
     {
       headerName: "pVal",
       field: "pval",
-      sortable: true,
-      filter: 'agNumberColumnFilter',
-      minWidth: 150,
+      sortable: true
     },
     {
       headerName: "Slope",
       field: "slope",
-      sortable: true,
-      filter: 'agNumberColumnFilter',
-      minWidth: 100,
+      sortable: true
     },
     {
       headerName: "GG Patients",
       field: "ggPatients",
-      sortable: true,
-      minWidth: 25
+      sortable: true
     },
     {
       headerName: "GA Patients",
       field: "gaPatients",
-      sortable: true,
-      minWidth: 25
+      sortable: true
     },
     {
       headerName: "AA Patients",
       field: "aaPatients",
-      sortable: true,
-      minWidth: 25
+      sortable: true
     }
   ]);
 
-  const defaultColDef = {
-    resizable: true,
-    sortable: true,
-    flex: 1,
-    minWidth: 80,
-  } as ColDef;
-
-  console.log(rowData)
   return (
-    <div className="ag-theme-alpine" style={{ height: '200px', width: '100%' }}>
+    <div className="ag-theme-material img-fluid" style={{ height: '200px', width: '100%' }}>
       <AgGridReact<RowData>
         rowData={rowData}
         columnDefs={columns}
-        defaultColDef={defaultColDef}
+        domLayout='autoHeight'
+        autoSizeStrategy={{ type: 'fitGridWidth' }}
         pagination={false}
       />
     </div>

@@ -151,7 +151,9 @@ export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ens
                 </Col>
             </Row>
             <Row>
-                <VariantInfoTable plotData={qtlInfoArray} />
+                <Col xs={12}>
+                    <VariantInfoTable plotData={qtlInfoArray} />
+                </Col>
             </Row>
         </div>
     );

@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "vite",
-    "build": "tsc -b && vite build",
+    "start": "npm run build-css && vite",
+    "build": "npm run build-css && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "build-css": "sass src/:src/"

@@ -163,7 +163,7 @@ export function App() {
         {!isLoading && rowData.length > 0 && (
           <Row className="mt-4">
             <h5>Results</h5>
-            <Col xs='12'>
+            <Col xs='12' className="ag-theme-material img-fluid">
               <AgGridReact 
                 rowData={rowData}
                 columnDefs={columns}
