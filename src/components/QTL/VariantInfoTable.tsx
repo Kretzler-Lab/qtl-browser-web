@@ -48,7 +48,7 @@ export const VariantInfoTable: FC<{plotData?: RowData[]}> = ({ plotData = [] }) 
       field: "pval",
       sortable: true,
       filter: 'agNumberColumnFilter',
-      minWidth: 120,
+      minWidth: 150,
     },
     {
       headerName: "Slope",
@@ -58,11 +58,22 @@ export const VariantInfoTable: FC<{plotData?: RowData[]}> = ({ plotData = [] }) 
       minWidth: 100,
     },
     {
-      headerName: "NumPatients",
-      field: "numPatients",
+      headerName: "GG Patients",
+      field: "ggPatients",
       sortable: true,
-      filter: 'agNumberColumnFilter',
-      minWidth: 120,
+      minWidth: 25
+    },
+    {
+      headerName: "GA Patients",
+      field: "gaPatients",
+      sortable: true,
+      minWidth: 25
+    },
+    {
+      headerName: "AA Patients",
+      field: "aaPatients",
+      sortable: true,
+      minWidth: 25
     }
   ]);
 
@@ -75,13 +86,12 @@ export const VariantInfoTable: FC<{plotData?: RowData[]}> = ({ plotData = [] }) 
 
   console.log(rowData)
   return (
-    <div className="ag-theme-alpine" style={{ height: '400px', width: '100%' }}>
+    <div className="ag-theme-alpine" style={{ height: '200px', width: '100%' }}>
       <AgGridReact<RowData>
         rowData={rowData}
         columnDefs={columns}
         defaultColDef={defaultColDef}
-        pagination={true}
-        paginationPageSize={20}
+        pagination={false}
       />
     </div>
   );

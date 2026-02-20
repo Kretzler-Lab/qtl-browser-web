@@ -18,6 +18,14 @@ a:hover {
 	text-decoration: none;
 }
 
+.btn.btn-link.p-0.u-text-decoration-none {
+	padding-bottom: 2px !important;
+}
+
+.btn-link:hover, .btn-link:focus {
+    text-decoration: none;
+}
+
 #navbar {
 	background-color: white;
 	border-bottom: 1px solid #e7e7e7;

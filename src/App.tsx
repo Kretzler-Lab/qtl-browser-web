@@ -3,11 +3,16 @@ import { Col, Container, Row } from "reactstrap"
 import ConceptSelect from "./components/ConceptSelect/ConceptSelect"
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import type { ColDef } from 'ag-grid-community';
-import { AgGridReact } from 'ag-grid-react';
+import {AgGridReact, type CustomCellRendererProps} from 'ag-grid-react';
 import { fetchFindByIdEnsgId } from "./helpers/ApolloClient";
 import { useAppSelector } from "./app/hooks";
 import { Spinner} from "reactstrap";
+import {setVariant} from "./features/variant/variantSlice.ts";
+import type {AutocompleteResult} from "./helpers/schema.tsx";
 ModuleRegistry.registerModules([AllCommunityModule]);
+import { useAppDispatch } from "./app/hooks";
+import {useNavigate} from "react-router";
+
 
 type RowData = {
   gene: string;
@@ -26,9 +31,33 @@ type RowData = {
 export function App() {
 
   const [rowData, setRowData] = useState<RowData[]>([]);
-  const autocompleteResult = useAppSelector((state) => state.autocomplete.autocompleteResult);
+  const autocompleteResult: AutocompleteResult | null = useAppSelector((state) => state.autocomplete.autocompleteResult);
   const [isLoading, setIsLoading] = useState(false);
   const [noEnsgId, setNoEnsgId] = useState(false);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+
+
+  const LinkRenderer = (params: CustomCellRendererProps<RowData>) => {
+      const handleClick = () => {
+          dispatch(setVariant({
+              ensgId: autocompleteResult && autocompleteResult.ensg_id,
+              variantId: params.value,
+              dx: ""
+          }))
+          navigate('/effects')
+      };
+
+      return (
+          <span
+              onClick={handleClick}
+              style={{ color: '#007bff', cursor: 'pointer', textDecoration: 'underline' }}
+          >
+            {params.value}
+        </span>
+        );
+    };
 
 
   useEffect(() => {
@@ -80,6 +109,7 @@ export function App() {
       headerName: "Variant Loci*",
       field: "id.variantId",
       sortable: true,
+      cellRenderer: LinkRenderer
     },
     {
       headerName: "TSS Distance",
