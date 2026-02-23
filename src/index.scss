@@ -47,3 +47,53 @@ a:hover {
 	padding-right: 0px !important;
 	padding-left: 0px !important;
 }
+
+
+.ag-header-group-cell .ag-header-cell-comp-wrapper-limited-height {
+  justify-content: center;
+}
+
+.ag-theme-material {
+
+  $odd-cell-background-color:  #cee5ff;
+
+  .ag-header-cell {
+    background-color: red;
+  }
+
+
+  .ag-row-odd {
+    background-color: $odd-cell-background-color !important;
+  }
+
+  .ag-row-odd.ag-row-hover  {
+    background-color: $odd-cell-background-color !important;
+  }
+
+  .ag-row-even.ag-row-hover  {
+    background-color: white !important;
+  }
+
+  .ag-header-cell-label {
+    font-weight: 500;
+    font-style: normal;
+    color: black;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  }
+
+  .total-row {
+    font-weight: bold;
+    background-color: #f4f4f4;
+  }
+
+  .ag-header {
+    min-height: 40px !important;
+  }
+
+  .ag-header-active {
+    background-color: white !important;
+  }
+
+}
