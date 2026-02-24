@@ -41,12 +41,17 @@ export function App() {
 
   const LinkRenderer = (params: CustomCellRendererProps<RowData>) => {
       const handleClick = () => {
-          dispatch(setVariant({
-              ensgId: autocompleteResult && autocompleteResult.ensg_id,
-              variantId: params.value,
-              dx: ""
-          }))
-          navigate('/effects')
+          if (!params.data) {
+            return;
+          }
+          else{
+            dispatch(setVariant({
+                ensgId:  params.data.id.ensgId,
+                variantId: params.value,
+                dx: params.data.id.dx
+            }))
+            navigate('/effects')
+          }
       };
 
       return (

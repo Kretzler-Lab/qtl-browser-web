@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')!).render(
       <NavBar />
       <Routes>
         <Route path='/' element={<App />} />
-        <Route path='effects' element={<VariantEffectsView variant_id={"chr22-42091896-G-A"} ensg_id={"ENSG00000183172"}/>} />
+        <Route path='effects' element={<VariantEffectsView />} />
       </Routes>
     </BrowserRouter>
   </Provider >

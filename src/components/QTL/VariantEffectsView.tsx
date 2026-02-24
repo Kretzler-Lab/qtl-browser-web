@@ -7,11 +7,6 @@ import type {BoxplotVizData} from "../../helpers/schema.tsx";
 import { useAppSelector } from '../../app/hooks.ts';
 import {VariantInfoTable} from "./VariantInfoTable.tsx";
 
-interface VariantEffectsViewProps {
-    variant_id: string;
-    ensg_id: string;
-}
-
 export interface DiseasePlotContainer {
     plotData: Data[];
     disease: string;
@@ -19,12 +14,15 @@ export interface DiseasePlotContainer {
     variant: string;
 }
 
-export const VariantEffectsView: FC<VariantEffectsViewProps> = ({variant_id, ensg_id}) => {
+export const VariantEffectsView = () => {
 
     const [boxplot_data, setBoxplotData] = useState<Record<string, DiseasePlotContainer>>({});
     const [loading, setLoading] = useState(true);
     const gene = useAppSelector((state) => state.gene.geneResult);
     const [qtlInfoArray, setQtlInfoArray] = useState<any[]>([]);
+    const variant_id = useAppSelector((state) => state.variant.variant.variantId);
+    const ensg_id = useAppSelector((state) => state.variant.variant.ensgId);
+
 
 
     useEffect(() => {

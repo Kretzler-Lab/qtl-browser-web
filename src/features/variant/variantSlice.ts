@@ -2,7 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { QtlId } from "../../helpers/schema";
 
 const initialState = {
-    variant: {} as QtlId
+    variant: {
+        ensgId: "",
+        variantId: "",
+        dx: ""
+    } as QtlId
 }
 
 const variantSlice = createSlice({
