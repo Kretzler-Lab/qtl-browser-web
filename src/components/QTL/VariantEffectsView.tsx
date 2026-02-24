@@ -1,4 +1,4 @@
-import {type FC, useEffect, useState} from 'react';
+import { useEffect, useState} from 'react';
 import {Row, Col} from 'reactstrap';
 import {BoxPlot} from "./BoxPlot.tsx";
 import type {Data} from 'plotly.js';
