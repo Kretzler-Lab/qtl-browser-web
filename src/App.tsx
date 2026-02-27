@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import { Col, Container, Row } from "reactstrap"
 import ConceptSelect from "./components/ConceptSelect/ConceptSelect"
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import {AllCommunityModule, type GridApi, type GridReadyEvent, ModuleRegistry} from 'ag-grid-community';
 import type { ColDef } from 'ag-grid-community';
 import {AgGridReact, type CustomCellRendererProps} from 'ag-grid-react';
 import { fetchFindByIdEnsgId } from "./helpers/ApolloClient";
@@ -37,6 +37,21 @@ export function App() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+    const gridApiRef = useRef<GridApi | null>(null);
+
+    const onGridReady = useCallback((params:GridReadyEvent) => {
+        gridApiRef.current = params.api;
+    }, []);
+
+    const onBtExport = useCallback(() => {
+        const params = {
+            skipHeader: false,
+            skipFooters: true,
+            skipGroups: true,
+            fileName: autocompleteResult?.value + '_qtls' + '.csv',
+        };
+        gridApiRef.current?.exportDataAsCsv(params);
+    }, []);
 
 
   const LinkRenderer = (params: CustomCellRendererProps<RowData>) => {
@@ -156,7 +171,7 @@ export function App() {
       <Container className='mt-3 rounded border p-3 shadow-sm'>
           <ConceptSelect selectedConcept="" searchType={"gene"}/>
       </Container>
-      <Container className='mt-3 rounded border p-3 shadow-sm'>
+
       
        
         {isLoading && (
@@ -166,9 +181,15 @@ export function App() {
         )}
 
         {!isLoading && rowData.length > 0 && (
+            <Container className='mt-3 rounded border p-3 shadow-sm'>
           <Row className="mt-4">
             <h5>Results</h5>
             <Col xs='12' className="ag-theme-material img-fluid">
+                <div style={{ display: "flex" }}>
+                    <button onClick={onBtExport} style={{marginLeft: 'auto'}}>
+                        Download as CSV
+                    </button>
+                </div>
               <AgGridReact 
                 rowData={rowData}
                 columnDefs={columns}
@@ -176,24 +197,31 @@ export function App() {
                 autoSizeStrategy={{ type: 'fitGridWidth' }}
                 pagination={true}
                 paginationPageSize={20}
+                onGridReady={onGridReady}
               />
             </Col>
             <small><span>* chrom-pos-ref-alternate</span></small>
           </Row>
+                </Container>
         )}
 
         {!isLoading && rowData.length === 0 && autocompleteResult?.ensg_id && (
-          <div className="text-muted mt-3">
-            No results found.
+            <Container className='mt-3 rounded border p-3 shadow-sm'>
+
+            <div className="text-muted mt-3">
+            No results found for {autocompleteResult.value}. The gene you selected may have been filtered out due to low expression or other criteria.
           </div>
+                </Container>
         )}
         
         {autocompleteResult && !isLoading && noEnsgId && (
-        <div className="text-muted mt-3">
+            <Container className='mt-3 rounded border p-3 shadow-sm'>
+
+            <div className="text-muted mt-3">
           This gene does not have an ENSG ID, so no data can be retrieved. Please select a different gene.
         </div>
+            </Container>
       )}
-      </Container>
     </div>
   )
 }

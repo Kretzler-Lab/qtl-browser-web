@@ -1,5 +1,5 @@
-import type {FC} from 'react';
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import {type FC, useCallback, useRef} from 'react';
+import {AllCommunityModule, type GridApi, type GridReadyEvent, ModuleRegistry} from 'ag-grid-community';
 import { AgGridReact } from 'ag-grid-react';
 import { useEffect, useState } from "react";
 import type { ColDef } from 'ag-grid-community';
@@ -19,12 +19,32 @@ type RowData = {
   aaPatients?: number;
 };
 
-export const VariantInfoTable: FC<{plotData?: RowData[]}> = ({ plotData = [] }) => {
+export const VariantInfoTable: FC<{
+    plotData?: RowData[];
+    gene: string;
+    variant: string;}> = ({ plotData = [], gene, variant }) => {
   const [rowData, setRowData] = useState<RowData[]>(plotData || []);
 
   useEffect(() => {
     setRowData(plotData || []);
   }, [plotData]);
+
+    const gridApiRef = useRef<GridApi | null>(null);
+
+    const onGridReady = useCallback((params: GridReadyEvent) => {
+        gridApiRef.current = params.api;
+    }, []);
+
+    const onBtExport = useCallback(() => {
+        // Optional parameters can be passed to customise the export
+        const params = {
+            skipHeader: false,
+            skipFooters: true,
+            skipGroups: true,
+            fileName: variant + '_' + gene + '.csv',
+        };
+        gridApiRef.current?.exportDataAsCsv(params);
+    }, []);
 
   const [columns] = useState<ColDef<RowData>[]>([
     {
@@ -66,13 +86,19 @@ export const VariantInfoTable: FC<{plotData?: RowData[]}> = ({ plotData = [] }) 
 
   return (
     <div className="ag-theme-material img-fluid" style={{ height: '200px', width: '100%' }}>
-      <AgGridReact<RowData>
+        <div style={{ display: "flex" }}>
+        <button onClick={onBtExport} style={{marginLeft: 'auto'}}>
+            Download as CSV
+        </button>
+        </div>
+        <AgGridReact<RowData>
         rowData={rowData}
         columnDefs={columns}
         domLayout='autoHeight'
         autoSizeStrategy={{ type: 'fitGridWidth' }}
         pagination={false}
-      />
+        onGridReady={onGridReady}
+        />
     </div>
   );
 };

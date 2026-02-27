@@ -148,7 +148,7 @@ export const VariantEffectsView = () => {
             </Row>
             <Row>
                 <Col xs={12}>
-                    <VariantInfoTable plotData={qtlInfoArray} />
+                    <VariantInfoTable plotData={qtlInfoArray} gene={gene} variant={variant_id}/>
                 </Col>
             </Row>
         </div>
