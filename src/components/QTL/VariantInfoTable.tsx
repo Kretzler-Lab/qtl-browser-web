@@ -36,7 +36,6 @@ export const VariantInfoTable: FC<{
     }, []);
 
     const onBtExport = useCallback(() => {
-        // Optional parameters can be passed to customise the export
         const params = {
             skipHeader: false,
             skipFooters: true,
