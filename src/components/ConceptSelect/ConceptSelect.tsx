@@ -19,7 +19,7 @@ const messages = {
 
 const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchType }) => {
     const [inputValue, setInputValue] = useState<string>("");
-    const autocompleteResult: AutocompleteResult | null = useAppSelector((state) => state.autocomplete.autocompleteResult);
+    const autocompleteResult: AutocompleteResult | null = useAppSelector((state) => state.autocompleteReducer.autocompleteResult);
     const dispatch = useAppDispatch();
 
     const formatOption = (result: AutocompleteResult, searchString: string) => {
