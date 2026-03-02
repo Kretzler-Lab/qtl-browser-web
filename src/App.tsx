@@ -33,7 +33,7 @@ type RowData = {
 export function App() {
 
   const [rowData, setRowData] = useState<RowData[]>([]);
-  const autocompleteResult: AutocompleteResult | null = useAppSelector((state) => state.autocomplete.autocompleteResult);
+  const autocompleteResult: AutocompleteResult | null = useAppSelector((state) => state.autocompleteReducer.autocompleteResult);
   const [isLoading, setIsLoading] = useState(false);
   const [noEnsgId, setNoEnsgId] = useState(false);
   const dispatch = useAppDispatch();

@@ -18,10 +18,10 @@ export const VariantEffectsView = () => {
 
     const [boxplot_data, setBoxplotData] = useState<Record<string, DiseasePlotContainer>>({});
     const [loading, setLoading] = useState(true);
-    const gene = useAppSelector((state) => state.gene.geneResult);
+    const gene = useAppSelector((state) => state.geneReducer.geneResult);
     const [qtlInfoArray, setQtlInfoArray] = useState<any[]>([]);
-    const variant_id = useAppSelector((state) => state.variant.variant.variantId);
-    const ensg_id = useAppSelector((state) => state.variant.variant.ensgId);
+    const variant_id = useAppSelector((state) => state.variantReducer.variant.variantId);
+    const ensg_id = useAppSelector((state) => state.variantReducer.variant.ensgId);
 
 
 
@@ -102,6 +102,7 @@ export const VariantEffectsView = () => {
     if (loading) {
         return <div className="text-center my-4">
             <Spinner color="primary" />
+            <h1>Loading... Please wait</h1>
         </div>
     }
 
