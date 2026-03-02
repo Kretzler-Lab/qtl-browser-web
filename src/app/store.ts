@@ -4,22 +4,21 @@ import geneReducer from "../features/gene/geneSlice.ts";
 import variantReducer from "../features/variant/variantSlice.ts";
 import { persistStore, persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session'
-const persistConfig = {
-    key: "root",
-    storage: storageSession
-}
+import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
+import type { PersistConfig } from 'redux-persist';
 
 const rootReducer = combineReducers({autocompleteReducer, geneReducer, variantReducer})
+
+export type RootState = ReturnType<typeof rootReducer>
+
+const persistConfig: PersistConfig<RootState> = {
+    key: "root",
+    storage: storageSession,
+    debug: true,
+    stateReconciler: hardSet
+}
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-// export const store = configureStore({
-//     reducer: {
-//         autocomplete: autocompleteReducer,
-//         gene: geneReducer,
-//         variant: variantReducer
-//     },
-// });
-
 export const store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) => 
@@ -33,6 +32,5 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 export type AppStore = typeof store.dispatch;

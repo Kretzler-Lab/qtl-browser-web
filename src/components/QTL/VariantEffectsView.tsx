@@ -102,6 +102,7 @@ export const VariantEffectsView = () => {
     if (loading) {
         return <div className="text-center my-4">
             <Spinner color="primary" />
+            <h1>Loading... Please wait</h1>
         </div>
     }
 
