@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useRef, useState} from "react";
-import { Col, Container, Row } from "reactstrap"
+import {Col, Container, Row} from "reactstrap"
 import ConceptSelect from "./components/ConceptSelect/ConceptSelect"
 import {AllCommunityModule, type GridApi, type GridReadyEvent, ModuleRegistry} from 'ag-grid-community';
 import type { ColDef } from 'ag-grid-community';
@@ -12,6 +12,8 @@ import type {AutocompleteResult} from "./helpers/schema.tsx";
 ModuleRegistry.registerModules([AllCommunityModule]);
 import { useAppDispatch } from "./app/hooks";
 import {useNavigate} from "react-router";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faDownload} from "@fortawesome/free-solid-svg-icons";
 
 
 type RowData = {
@@ -183,12 +185,11 @@ export function App() {
         {!isLoading && rowData.length > 0 && (
             <Container className='mt-3 rounded border p-3 shadow-sm'>
           <Row className="mt-4">
-            <h5>Results</h5>
-            <Col xs='12' className="ag-theme-material img-fluid">
-                <div style={{ display: "flex" }}>
-                    <button onClick={onBtExport} style={{marginLeft: 'auto'}}>
-                        Download as CSV
-                    </button>
+            <h5>Results for {autocompleteResult?.value}</h5>
+            <Col xs='12' className="ag-theme-material img-fluid mt-2">
+                <div className='mb-1' style={{ display: "flex" }}>
+                    <div> Select a variant loci to view the variant effects by diagnosis</div>
+                    <FontAwesomeIcon icon={faDownload} size="2x" onClick={onBtExport} style={{ marginLeft: 'auto' }} aria-label="Click to download table"/>
                 </div>
               <AgGridReact 
                 rowData={rowData}

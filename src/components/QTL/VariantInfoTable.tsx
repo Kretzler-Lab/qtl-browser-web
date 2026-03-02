@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import type { ColDef } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faDownload} from "@fortawesome/free-solid-svg-icons";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 type RowData = {
@@ -85,10 +87,8 @@ export const VariantInfoTable: FC<{
 
   return (
     <div className="ag-theme-material img-fluid" style={{ height: '200px', width: '100%' }}>
-        <div style={{ display: "flex" }}>
-        <button onClick={onBtExport} style={{marginLeft: 'auto'}}>
-            Download as CSV
-        </button>
+        <div className='mb-1' style={{ display: "flex" }}>
+                <FontAwesomeIcon icon={faDownload} size="2x" onClick={onBtExport} style={{ marginLeft: 'auto' }} aria-label="Click to download table"/>
         </div>
         <AgGridReact<RowData>
         rowData={rowData}
