@@ -50,10 +50,10 @@ export function App() {
             skipHeader: false,
             skipFooters: true,
             skipGroups: true,
-            fileName: autocompleteResult?.value + '_qtls' + '.csv',
+            fileName: (autocompleteResult?.value ?? "curegn") + '_qtls' + '.csv',
         };
         gridApiRef.current?.exportDataAsCsv(params);
-    }, []);
+    }, [autocompleteResult]);
 
 
   const LinkRenderer = (params: CustomCellRendererProps<RowData>) => {
