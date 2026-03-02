@@ -1,5 +1,5 @@
 import { useEffect, useState} from 'react';
-import {Row, Col} from 'reactstrap';
+import {Row, Col, Spinner} from 'reactstrap';
 import {BoxPlot} from "./BoxPlot.tsx";
 import type {Data} from 'plotly.js';
 import {fetchBoxplotData} from "../../helpers/ApolloClient.tsx";
@@ -100,7 +100,9 @@ export const VariantEffectsView = () => {
     }, [variant_id, ensg_id]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="text-center my-4">
+            <Spinner color="primary" />
+        </div>
     }
 
     return (
@@ -140,7 +142,7 @@ export const VariantEffectsView = () => {
                 </Col>
                 <Col xs={2}>
                     <BoxPlot
-                        plotData={boxplot_data["all_com"]}
+                        plotData={boxplot_data["all_co"]}
                     />
                 </Col>
             </Row>
