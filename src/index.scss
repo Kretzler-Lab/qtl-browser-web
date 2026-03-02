@@ -58,9 +58,9 @@ a:hover {
   $odd-cell-background-color:  #cee5ff;
 
   .ag-header-cell {
-    background-color: red;
+    border-right: var(--ag-borders) var(--ag-border-color);
+    height: 40px !important;
   }
-
 
   .ag-row-odd {
     background-color: $odd-cell-background-color !important;

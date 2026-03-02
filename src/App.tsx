@@ -8,7 +8,7 @@ import { fetchFindByIdEnsgId } from "./helpers/ApolloClient";
 import { useAppSelector } from "./app/hooks";
 import { Spinner} from "reactstrap";
 import {setVariant} from "./features/variant/variantSlice.ts";
-import type {AutocompleteResult} from "./helpers/schema.tsx";
+import type {AutocompleteResult, Qtl} from "./helpers/schema.tsx";
 ModuleRegistry.registerModules([AllCommunityModule]);
 import { useAppDispatch } from "./app/hooks";
 import {useNavigate} from "react-router";
@@ -23,11 +23,11 @@ type RowData = {
     dx:string;
     ensgId: string
   };
-  tssDistance: number;
-  maf: number;
-  pval: number;
-  slope: number;
-  slopeSe: number;
+  tssDistance: string;
+  maf: string;
+  pval: string;
+  slope: string;
+  slopeSe: string;
 };
 
 export function App() {
@@ -102,11 +102,16 @@ export function App() {
 
       const data = await fetchFindByIdEnsgId(
         autocompleteResult.ensg_id
-      ) as unknown as RowData[];
+      ) as unknown as Qtl[];
 
-      const result: RowData[] = (data ?? []).map((row => ({
-        ...row,
-        gene: autocompleteResult.value
+      const result: RowData[] = (data ?? []).map(((row) => ({
+        id: row.id,
+        gene: autocompleteResult.value,
+        maf: row?.maf.toExponential(3),
+        pval: typeof(row?.pval) === "number" ? row?.pval.toExponential(3) : row?.pval, 
+        slope: row?.slope.toExponential(3),
+        slopeSe: row?.slopeSe.toExponential(3),
+        tssDistance: row?.tssDistance.toExponential(3)
       })));
       setRowData(result);
     } catch (error) {
