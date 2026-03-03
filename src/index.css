@@ -48,7 +48,8 @@ a:hover {
 }
 
 .ag-theme-material .ag-header-cell {
-  background-color: red;
+  border-right: var(--ag-borders) var(--ag-border-color);
+  height: 40px !important;
 }
 .ag-theme-material .ag-row-odd {
   background-color: #cee5ff !important;

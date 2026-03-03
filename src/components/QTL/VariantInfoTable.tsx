@@ -16,6 +16,7 @@ export type RowData = {
   maf?: number;
   pval?: number | string
   slope?: number;
+  stderr?: number | undefined; 
   ggPatients?: number;
   gaPatients?: number;
   aaPatients?: number;
@@ -49,8 +50,25 @@ export const VariantInfoTable: FC<{
 
   const [columns] = useState<ColDef<RowData>[]>([
     {
-      headerName: "Disease",
+      headerName: "Diagnosis",
       field: "disease",
+      sortable: true
+    },
+    {
+      headerName: "Slope",
+      field: "slope",
+      sortable: true,
+      
+    },
+    {
+      headerName: "Stderr",
+      field: "stderr",
+      sortable: true,
+      cellRenderer: () => {return "placeholder"}
+    },
+    {
+      headerName: "pVal",
+      field: "pval",
       sortable: true
     },
     {
@@ -59,27 +77,17 @@ export const VariantInfoTable: FC<{
       sortable: true
     },
     {
-      headerName: "pVal",
-      field: "pval",
-      sortable: true
-    },
-    {
-      headerName: "Slope",
-      field: "slope",
-      sortable: true
-    },
-    {
-      headerName: "GG Patients",
+      headerName: "GG",
       field: "ggPatients",
       sortable: true
     },
     {
-      headerName: "GA Patients",
+      headerName: "GA",
       field: "gaPatients",
       sortable: true
     },
     {
-      headerName: "AA Patients",
+      headerName: "AA",
       field: "aaPatients",
       sortable: true
     }
