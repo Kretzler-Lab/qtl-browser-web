@@ -1,6 +1,6 @@
 import { ApolloClient, HttpLink, gql, CombinedGraphQLErrors, CombinedProtocolErrors, InMemoryCache, ApolloLink } from "@apollo/client";
 import { ErrorLink } from "@apollo/client/link/error";
-import type {AutocompleteResult, BoxplotVizData} from "./schema";
+import type {AutocompleteResult, BoxplotVizData, Qtl} from "./schema";
 import { sendMessageToBackend } from "../actions/Error/errorActions";
 import packageJson from '../../package.json';
 
@@ -55,7 +55,7 @@ export const apolloClient = new ApolloClient({
 
 export const fetchFindByIdEnsgId = async (ensg_id: string) => {
   interface GeneData{
-    findByIdEnsgId: AutocompleteResult;
+    findByIdEnsgId: Qtl;
   }
 
   const GET_GENE_BY_ENSG_ID = gql`
