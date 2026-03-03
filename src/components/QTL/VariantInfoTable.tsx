@@ -9,11 +9,11 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-export type RowData = {
+type RowData = {
   gene?: string;
   disease?: string;
-  tssDistance?: number;
-  maf?: number;
+  tssDistance?: number | string;
+  maf?: number | number;
   pval?: number | string
   slope?: number;
   stderr?: number | undefined; 

@@ -6,7 +6,6 @@ import {fetchBoxplotData} from "../../helpers/ApolloClient.tsx";
 import type {BoxplotVizData} from "../../helpers/schema.tsx";
 import { useAppSelector } from '../../app/hooks.ts';
 import {VariantInfoTable} from "./VariantInfoTable.tsx";
-import type { RowData } from './VariantInfoTable.tsx';
 export interface DiseasePlotContainer {
     plotData: Data[];
     disease: string;
@@ -19,7 +18,7 @@ export const VariantEffectsView = () => {
     const [boxplot_data, setBoxplotData] = useState<Record<string, DiseasePlotContainer>>({});
     const [loading, setLoading] = useState(true);
     const gene = useAppSelector((state) => state.geneReducer.geneResult);
-    const [qtlInfoArray, setQtlInfoArray] = useState<RowData[]>([]);
+    const [qtlInfoArray, setQtlInfoArray] = useState<any>([]);
     const variant_id = useAppSelector((state) => state.variantReducer.variant.variantId);
     const ensg_id = useAppSelector((state) => state.variantReducer.variant.ensgId);
 
@@ -35,7 +34,7 @@ export const VariantEffectsView = () => {
                 }
 
                 // Build QTL info array for table using correct structure
-                const qtlInfo = box_data.map((item) => ({
+                const qtlInfo = box_data.map((item: BoxplotVizData) => ({
                     gene: item.qtl?.id?.ensgId,
                     id: {
                         variantId: item.qtl?.id?.variantId,
@@ -102,7 +101,6 @@ export const VariantEffectsView = () => {
             <h1>Loading... Please wait</h1>
         </div>
     }
-    console.log(qtlInfoArray)
     return (
         <div className="container mt-3">
             <Row xs={12}>
