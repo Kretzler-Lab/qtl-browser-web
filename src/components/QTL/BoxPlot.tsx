@@ -7,6 +7,13 @@ interface BoxPlotProps {
 }
 
 export const BoxPlot: FC<BoxPlotProps> = ({plotData}) => {
+  const disease = (disease: string) => {
+    if (disease !== "all_co"){
+      return disease;
+    }else{
+      return "all"
+    }
+  }
     return (
         <Plot
             data={plotData.plotData}
@@ -22,7 +29,7 @@ export const BoxPlot: FC<BoxPlotProps> = ({plotData}) => {
                 },
                 xaxis: {
                     title: {
-                        text: plotData.disease,
+                        text: disease(plotData.disease),
                         font: { family: 'Arial, sans-serif', size: 14, color: '#333' },
                         standoff: 40
                     }
