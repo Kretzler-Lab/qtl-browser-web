@@ -6,7 +6,6 @@ import {fetchBoxplotData} from "../../helpers/ApolloClient.tsx";
 import type {BoxplotVizData} from "../../helpers/schema.tsx";
 import { useAppSelector } from '../../app/hooks.ts';
 import {VariantInfoTable} from "./VariantInfoTable.tsx";
-
 export interface DiseasePlotContainer {
     plotData: Data[];
     disease: string;
@@ -19,11 +18,9 @@ export const VariantEffectsView = () => {
     const [boxplot_data, setBoxplotData] = useState<Record<string, DiseasePlotContainer>>({});
     const [loading, setLoading] = useState(true);
     const gene = useAppSelector((state) => state.geneReducer.geneResult);
-    const [qtlInfoArray, setQtlInfoArray] = useState<any[]>([]);
+    const [qtlInfoArray, setQtlInfoArray] = useState<any>([]);
     const variant_id = useAppSelector((state) => state.variantReducer.variant.variantId);
     const ensg_id = useAppSelector((state) => state.variantReducer.variant.ensgId);
-
-
 
     useEffect(() => {
         const getData = async () => {
@@ -37,7 +34,7 @@ export const VariantEffectsView = () => {
                 }
 
                 // Build QTL info array for table using correct structure
-                const qtlInfo = box_data.map((item) => ({
+                const qtlInfo = box_data.map((item: BoxplotVizData) => ({
                     gene: item.qtl?.id?.ensgId,
                     id: {
                         variantId: item.qtl?.id?.variantId,
@@ -54,7 +51,6 @@ export const VariantEffectsView = () => {
                     disease: item.disease
                 }));
                 setQtlInfoArray(qtlInfo);
-
                 const mappedDiseases: Record<string, BoxplotVizData> = Object.values(box_data).reduce<Record<string, BoxplotVizData>>((acc: any, curr: any) => {
                     acc[curr.disease] = (curr as BoxplotVizData);
                     return acc;
@@ -81,7 +77,7 @@ export const VariantEffectsView = () => {
                     acc[disease] = {
                         plotData: traces,
                         disease: disease,
-                        gene: ensg_id,
+                        gene: gene,
                         variant: variant_id
                     };
 
@@ -105,7 +101,6 @@ export const VariantEffectsView = () => {
             <h1>Loading... Please wait</h1>
         </div>
     }
-
     return (
         <div className="container mt-3">
             <Row xs={12}>
@@ -118,33 +113,39 @@ export const VariantEffectsView = () => {
               </Col>
               </Row>
             <Row className="mb-5">
-                <Col xs={2}>
+                <Col xs={2} className='text-center'>
                     <BoxPlot plotData={boxplot_data["FSGS"]}/>
+                    <span>pval: {qtlInfoArray[0].pval}</span>
                 </Col>
-                <Col xs={2}>
+                <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["MCD"]}
                     />
+                    <span>pval: {qtlInfoArray[5].pval}</span>
                 </Col>
-                <Col xs={2}>
+                <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["MN"]}
                     />
+                    <span>pval: {qtlInfoArray[1].pval}</span>
                 </Col>
-                <Col xs={2}>
+                <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["igAN"]}
                     />
+                    <span>pval: {qtlInfoArray[2].pval}</span>
                 </Col>
-                <Col xs={2}>
+                <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["IgAV"]}
                     />
+                    <span>pval: {qtlInfoArray[3].pval}</span>
                 </Col>
-                <Col xs={2}>
+                <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["all_co"]}
                     />
+                    <span>pval: {qtlInfoArray[4].pval}</span>
                 </Col>
             </Row>
             <Row>

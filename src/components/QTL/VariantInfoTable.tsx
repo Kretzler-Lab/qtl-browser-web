@@ -12,9 +12,9 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 type RowData = {
   gene?: string;
   disease?: string;
-  tssDistance?: number;
-  maf?: number;
-  pval?: number;
+  tssDistance?: number | string;
+  maf?: number | number;
+  pval?: number | string
   slope?: number;
   stderr?: number | undefined; 
   ggPatients?: number;
