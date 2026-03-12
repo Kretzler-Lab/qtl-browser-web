@@ -143,7 +143,7 @@ export const VariantEffectsView = () => {
                 </Col>
                 <Col xs={2} className='text-center'>
                     <BoxPlot
-                        plotData={boxplot_data["all_co"]}
+                        plotData={boxplot_data["All"]}
                     />
                     <span>pval: {qtlInfoArray[4].pval}</span>
                 </Col>
