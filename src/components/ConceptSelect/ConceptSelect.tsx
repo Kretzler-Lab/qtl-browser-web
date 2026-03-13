@@ -88,7 +88,7 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
         <React.Fragment>
             <Row xs="12">
                 <Col>
-                    <h5>Search</h5>
+                    <h5>Search by gene</h5>
                 </Col>
             </Row>
             <Row xs="12">

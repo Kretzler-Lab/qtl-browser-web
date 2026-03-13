@@ -77,4 +77,14 @@ a:hover {
   background-color: white !important;
 }
 
+.searchOrCol {
+  display: flex;
+  align-items: end;
+  width: auto;
+  margin: 0 auto;
+}
+.searchOrCol h5 {
+  display: inline;
+}
+
 /*# sourceMappingURL=index.css.map */

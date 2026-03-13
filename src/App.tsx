@@ -14,6 +14,7 @@ import { useAppDispatch } from "./app/hooks";
 import {useNavigate} from "react-router";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
+import SNPSelect from "./components/SNPSelect/SNPSelect.tsx";
 
 
 type RowData = {
@@ -176,7 +177,17 @@ export function App() {
         <h1>CureGN QTL Browser</h1>
       </div>
       <Container className='mt-3 rounded border p-3 shadow-sm'>
-          <ConceptSelect selectedConcept="" searchType={"gene"}/>
+        <Row>
+          <Col>
+            <ConceptSelect selectedConcept="" searchType={"gene"}/>
+          </Col>
+          <Col xs="auto" className="searchOrCol">
+            <h5>or</h5>
+          </Col>
+          <Col>
+            <SNPSelect />
+          </Col>
+        </Row>
       </Container>
 
       

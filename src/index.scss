@@ -97,3 +97,14 @@ a:hover {
   }
 
 }
+
+.searchOrCol {
+  display: flex;
+  align-items: end;
+  width: auto;
+  margin: 0 auto;
+
+  h5 {
+    display: inline;
+  }
+}
