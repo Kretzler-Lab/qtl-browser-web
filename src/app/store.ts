@@ -2,12 +2,15 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import autocompleteReducer from "../features/autocomplete/autocompleteSlice.ts";
 import geneReducer from "../features/gene/geneSlice.ts";
 import variantReducer from "../features/variant/variantSlice.ts";
+import qtlReducer from "../features/qtl/qtlSlice.ts";
 import { persistStore, persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session'
 import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 import type { PersistConfig } from 'redux-persist';
 
-const rootReducer = combineReducers({autocompleteReducer, geneReducer, variantReducer})
+const rootReducer = combineReducers({
+    autocompleteReducer, geneReducer, 
+    variantReducer, qtlReducer})
 
 export type RootState = ReturnType<typeof rootReducer>
 

@@ -35,6 +35,7 @@ export type Qtl = {
     pval: number | string;
     slope: number;
     slopeSe: number;
+    geneSymbol: string | null;
 };
 
 export type QtlId = {
@@ -44,3 +45,14 @@ export type QtlId = {
 };
 
 export type Gene = string;
+
+export type searchTerm = {
+    term: string | null;
+    type: searchTermType;
+};
+
+export const searchTypes = {
+    autoComplete: "autoComplete",
+    snp: "snpLocation"
+} as const;
+type searchTermType = typeof searchTypes[keyof typeof searchTypes];
