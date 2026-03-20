@@ -8,7 +8,7 @@ import { fetchFindByIdEnsgId } from "./helpers/ApolloClient";
 import { useAppSelector } from "./app/hooks";
 import { Spinner} from "reactstrap";
 import {setVariant} from "./features/variant/variantSlice.ts";
-import type {AutocompleteResult, Qtl} from "./helpers/schema.tsx";
+import {searchTypes, type AutocompleteResult, type Qtl, type searchTerm} from "./helpers/schema.tsx";
 ModuleRegistry.registerModules([AllCommunityModule]);
 import { useAppDispatch } from "./app/hooks";
 import {useNavigate} from "react-router";
@@ -35,6 +35,8 @@ export function App() {
 
   const [rowData, setRowData] = useState<RowData[]>([]);
   const autocompleteResult: AutocompleteResult | null = useAppSelector((state) => state.autocompleteReducer.autocompleteResult);
+  const qtlResults: Qtl[] | null = useAppSelector((state) => state.qtlReducer?.qtlResults);
+  const searchTerm: searchTerm | null = useAppSelector((state) => state.qtlReducer.searchTerm);
   const [isLoading, setIsLoading] = useState(false);
   const [noEnsgId, setNoEnsgId] = useState(false);
   const dispatch = useAppDispatch();
@@ -51,10 +53,10 @@ export function App() {
             skipHeader: false,
             skipFooters: true,
             skipGroups: true,
-            fileName: (autocompleteResult?.value ?? "curegn") + '_qtls' + '.csv',
+            fileName: (searchTerm?.term ?? "curegn") + '_qtls' + '.csv',
         };
         gridApiRef.current?.exportDataAsCsv(params);
-    }, [autocompleteResult]);
+    }, [searchTerm]);
 
 
   const LinkRenderer = (params: CustomCellRendererProps<RowData>) => {
@@ -85,46 +87,65 @@ export function App() {
 
   useEffect(() => {
     if (!autocompleteResult) {
-    return;
-  }
-
-  setRowData([]);
-  setNoEnsgId(false);
-
-  if (!autocompleteResult?.ensg_id || autocompleteResult?.ensg_id === null) {
-    setNoEnsgId(true);
-    return;
-  }
-
-  const getRowData = async () => {
-    try {
-      setIsLoading(true);
-      setRowData([]);          
-
-      const data = await fetchFindByIdEnsgId(
-        autocompleteResult.ensg_id
-      ) as unknown as Qtl[];
-
-      const result: RowData[] = (data ?? []).map(((row) => ({
-        id: row.id,
-        gene: autocompleteResult.value,
-        maf: row?.maf.toExponential(3),
-        pval: typeof(row?.pval) === "number" ? row?.pval.toExponential(3) : row?.pval, 
-        slope: row?.slope.toExponential(3),
-        slopeSe: row?.slopeSe.toExponential(3),
-        tssDistance: row?.tssDistance.toExponential(3)
-      })));
-      setRowData(result);
-    } catch (error) {
-      console.error("Error fetching gene data:", error);
-      setRowData([]);
-    } finally {
-      setIsLoading(false);
+      return;
     }
-  };
 
-  getRowData();
-}, [autocompleteResult]);
+    setRowData([]);
+    setNoEnsgId(false);
+
+    if (!autocompleteResult?.ensg_id || autocompleteResult?.ensg_id === null) {
+      setNoEnsgId(true);
+      return;
+    }
+
+    const getRowData = async () => {
+      try {
+        setIsLoading(true);
+        setRowData([]);          
+
+        const data = await fetchFindByIdEnsgId(
+          autocompleteResult.ensg_id
+        ) as unknown as Qtl[];
+
+        fillTable(data, autocompleteResult.value);
+      } catch (error) {
+        console.error("Error fetching gene data:", error);
+        setRowData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const fillTable = (data: Qtl[] | null, geneSymbol: string) => {
+		if (!data) {
+			return;
+		}
+		const result: RowData[] = (data ?? []).map(((row) => ({
+			id: row.id,
+			gene: row?.geneSymbol ?? geneSymbol,
+			maf: row?.maf.toExponential(3),
+			pval: typeof(row?.pval) === "number" ? row?.pval.toExponential(3) : row?.pval, 
+			slope: row?.slope.toExponential(3),
+			slopeSe: row?.slopeSe.toExponential(3),
+			tssDistance: row?.tssDistance.toExponential(3)
+		})));
+		setRowData(result);
+    }
+	switch (searchTerm?.type) {
+		case searchTypes.autoComplete: {
+			getRowData();
+			break;
+		}
+		case searchTypes.snp: {
+			setIsLoading(true);
+			setRowData([]);          
+			fillTable(qtlResults, "");
+			setIsLoading(false);
+			break;
+		}
+	}
+
+  }, [autocompleteResult, qtlResults, searchTerm]);
 
 
   const [columns] = useState<ColDef<RowData>[]>([
@@ -179,7 +200,7 @@ export function App() {
       <Container className='mt-3 rounded border p-3 shadow-sm'>
         <Row>
           <Col>
-            <ConceptSelect selectedConcept="" searchType={"gene"}/>
+            <ConceptSelect searchType={"gene"} />
           </Col>
           <Col xs="auto" className="searchOrCol">
             <h5>or</h5>
@@ -201,7 +222,7 @@ export function App() {
         {!isLoading && rowData.length > 0 && (
             <Container className='mt-3 rounded border p-3 shadow-sm'>
           <Row className="mt-4">
-            <h5>Results for {autocompleteResult?.value}</h5>
+            <h5>Results for {searchTerm?.term} </h5>
             <Col xs='12' className="ag-theme-material img-fluid mt-2">
                 <div className='mb-1' style={{ display: "flex" }}>
                     <div> Select a variant loci to view the variant effects by diagnosis</div>
@@ -226,12 +247,12 @@ export function App() {
             <Container className='mt-3 rounded border p-3 shadow-sm'>
 
             <div className="text-muted mt-3">
-            No results found for {autocompleteResult.value}. The gene you selected may have been filtered out due to low expression or other criteria.
+            No results found for {searchTerm?.term}.{searchTerm?.type == searchTypes.autoComplete && (" The gene you selected may have been filtered out due to low expression or other criteria.")} 
           </div>
                 </Container>
         )}
         
-        {autocompleteResult && !isLoading && noEnsgId && (
+        {searchTerm?.type == searchTypes.autoComplete && autocompleteResult && !isLoading && noEnsgId && (
             <Container className='mt-3 rounded border p-3 shadow-sm'>
 
             <div className="text-muted mt-3">

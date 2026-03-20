@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Row, Col } from 'reactstrap';
 import AsyncSelect from "react-select/async";
 import { fetchAutocomplete } from "../../helpers/ApolloClient";
-import type { AutocompleteResult } from "../../helpers/schema";
+import { searchTypes, type AutocompleteResult } from "../../helpers/schema";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setGene } from "../../features/gene/geneSlice";
 import { setAutocomplete } from "../../features/autocomplete/autocompleteSlice";
+import { setSearchTerm } from "../../features/qtl/qtlSlice";
 
 interface ConceptSelectProps {
-    selectedConcept: any;
     searchType: any;
 }
 
@@ -17,7 +17,7 @@ const messages = {
     noOption: "No results found"
 };
 
-const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchType }) => {
+const ConceptSelect: React.FC<ConceptSelectProps> = ({ searchType }) => {
     const [inputValue, setInputValue] = useState<string>("");
     const autocompleteResult: AutocompleteResult | null = useAppSelector((state) => state.autocompleteReducer.autocompleteResult);
     const dispatch = useAppDispatch();
@@ -78,8 +78,14 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
       if (selected !== null) {
         const result = selected.value as AutocompleteResult;
         if (result.type === "gene"){
-          dispatch(setAutocomplete(result));
-          dispatch(setGene(result.value));
+            dispatch(
+                setSearchTerm({
+                    term: result.value, 
+                    type: searchTypes.autoComplete
+                })
+            );
+            dispatch(setAutocomplete(result));
+            dispatch(setGene(result.value));
         }
       }
     }
@@ -95,7 +101,7 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ selectedConcept, searchTy
                 <Col>
                     <article>
                         <AsyncSelect
-                            defaultInputValue={selectedConcept.value}
+                            defaultInputValue={""}
                             inputValue={inputValue}
                             loadOptions={getOptions}
                             onInputChange={handleInputChange}

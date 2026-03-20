@@ -161,3 +161,38 @@ export const fetchBoxplotData = async (variant_id: string, ensg_id: string): Pro
         return [];
     }
 }
+
+
+export const fetchFindBySnpLocation = async (snpLocation: string) => {
+  interface GeneData{
+    findBySnpLocation: Qtl[];
+  }
+
+  const GET_GENE_BY_SNP_LOCATION = gql`
+    query findBySnpLocation($snpLocation: String!) {
+        findBySnpLocation(snpLocation: $snpLocation) {
+          id {
+            ensgId
+            variantId
+            dx
+          }
+          tssDistance
+          geneSymbol
+          maf
+          pval
+          slope
+          slopeSe
+        }
+    }
+  `;
+  const { error, data } = await apolloClient.query<GeneData>({
+    query: GET_GENE_BY_SNP_LOCATION,
+    variables: { snpLocation: snpLocation }
+  })
+
+  if (data && data.findBySnpLocation) {
+    return data.findBySnpLocation;
+  }else {
+    sendMessageToBackend("Could not retrieve data for findBySnpLocation: " + error?.message, true);
+  }
+}
