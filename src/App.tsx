@@ -36,7 +36,7 @@ export function App() {
   const [rowData, setRowData] = useState<RowData[]>([]);
   const autocompleteResult: AutocompleteResult | null = useAppSelector((state) => state.autocompleteReducer.autocompleteResult);
   const qtlResults: Qtl[] | null = useAppSelector((state) => state.qtlReducer?.qtlResults);
-  const searchTerm: searchTerm | null = useAppSelector((state) => state.qtlReducer.searchTerm);
+  const searchTerm: searchTerm | null = useAppSelector((state) => state.qtlReducer?.searchTerm);
   const [isLoading, setIsLoading] = useState(false);
   const [noEnsgId, setNoEnsgId] = useState(false);
   const dispatch = useAppDispatch();
@@ -86,34 +86,33 @@ export function App() {
 
 
   useEffect(() => {
-    if (!autocompleteResult) {
-      return;
+    if (!searchTerm) {
+		return;
     }
 
     setRowData([]);
     setNoEnsgId(false);
 
-    if (!autocompleteResult?.ensg_id || autocompleteResult?.ensg_id === null) {
-      setNoEnsgId(true);
-      return;
-    }
-
     const getRowData = async () => {
-      try {
-        setIsLoading(true);
-        setRowData([]);          
+		if (!autocompleteResult?.ensg_id || autocompleteResult?.ensg_id === null) {
+			setNoEnsgId(true);
+			return;
+	  	}
+		try {
+			setIsLoading(true);
+			setRowData([]);
 
-        const data = await fetchFindByIdEnsgId(
-          autocompleteResult.ensg_id
-        ) as unknown as Qtl[];
+			const data = await fetchFindByIdEnsgId(
+				autocompleteResult.ensg_id
+			) as unknown as Qtl[];
 
-        fillTable(data, autocompleteResult.value);
-      } catch (error) {
-        console.error("Error fetching gene data:", error);
-        setRowData([]);
-      } finally {
-        setIsLoading(false);
-      }
+			fillTable(data, autocompleteResult.value);
+		} catch (error) {
+			console.error("Error fetching gene data:", error);
+			setRowData([]);
+		} finally {
+			setIsLoading(false);
+		}
     };
 
     const fillTable = (data: Qtl[] | null, geneSymbol: string) => {
@@ -131,6 +130,7 @@ export function App() {
 		})));
 		setRowData(result);
     }
+
 	switch (searchTerm?.type) {
 		case searchTypes.autoComplete: {
 			getRowData();
