@@ -15,6 +15,7 @@ import {useNavigate} from "react-router";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
 import SNPSelect from "./components/SNPSelect/SNPSelect.tsx";
+import InfoHeader from "./components/Header/InfoHeader.tsx";
 
 
 type RowData = {
@@ -169,16 +170,25 @@ export function App() {
       headerName: "MAF",
       field: "maf",
       sortable: true,
+      headerComponent: InfoHeader,
+      headerComponentParams: {infoIcon: true},
+      headerTooltip: "Minor allele frequency for this variant in the sub-cohort indicated. All subsequent columns are the number of samples having the stated genotype in each cohort"
     },
     {
       headerName: "PVAL",
       field: "pval",
       sortable: true,
+      headerComponent: InfoHeader,
+      headerComponentParams: {infoIcon: true},
+      headerTooltip: "This is the p-value indicating the significance of the single SNP association with the gene expression."
     },
     {
       headerName: "Beta",
       field: "slope",
       sortable: true,
+      headerComponent: InfoHeader,
+      headerComponentParams: {infoIcon: true},
+      headerTooltip: "This is the slope of the linear regression for this single SNP and gene expression model. The ‘Slope SE’ field is the standard error for the slope."
     },
     {
       headerName: "Beta STD Err",
@@ -189,6 +199,9 @@ export function App() {
       headerName: "Diagnosis Cohort",
       field: "id.dx",
       sortable: true,
+      headerComponent: InfoHeader,
+      headerComponentParams: {infoIcon: true},
+      headerTooltip: "This is the diagnosis sub-cohort represented in the given row. The value of ‘All’ refers to all samples combined and analyzed together."
     }
   ]);
 

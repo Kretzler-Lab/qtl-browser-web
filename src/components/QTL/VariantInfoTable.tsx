@@ -7,6 +7,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
+import InfoHeader from '../Header/InfoHeader';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 type RowData = {
@@ -52,12 +53,18 @@ export const VariantInfoTable: FC<{
     {
       headerName: "Diagnosis",
       field: "disease",
-      sortable: true
+      sortable: true,
+      headerComponent: InfoHeader,
+      headerComponentParams: {infoIcon: true},
+      headerTooltip: "This is the diagnosis sub-cohort represented in the given row. The value of ‘All’ refers to all samples combined and analyzed together."
     },
     {
       headerName: "Slope",
       field: "slope",
       sortable: true,
+      headerComponent: InfoHeader,
+      headerComponentParams: {infoIcon: true},
+      headerTooltip: "This is the slope of the linear regression for this single SNP and gene expression model. The ‘Slope SE’ field is the standard error for the slope."
       
     },
     {
@@ -69,12 +76,18 @@ export const VariantInfoTable: FC<{
     {
       headerName: "pVal",
       field: "pval",
-      sortable: true
+      sortable: true,
+      headerComponent: InfoHeader,
+      headerComponentParams: {infoIcon: true},
+      headerTooltip: "This is the p-value indicating the significance of the single SNP association with the gene expression."
     },
     {
       headerName: "MAF",
       field: "maf",
-      sortable: true
+      sortable: true,
+      headerComponent: InfoHeader,
+      headerComponentParams: {infoIcon: true},
+      headerTooltip: "Minor allele frequency for this variant in the sub-cohort indicated. All subsequent columns are the number of samples having the stated genotype in each cohort"
     },
     {
       headerName: "GG",
