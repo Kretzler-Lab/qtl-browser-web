@@ -183,7 +183,7 @@ export function App() {
       headerTooltip: "This is the p-value indicating the significance of the single SNP association with the gene expression."
     },
     {
-      headerName: "Beta",
+      headerName: "Slope/Slope SE",
       field: "slope",
       sortable: true,
       headerComponent: InfoHeader,
