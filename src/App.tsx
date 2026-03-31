@@ -15,6 +15,7 @@ import {useNavigate} from "react-router";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
 import SNPSelect from "./components/SNPSelect/SNPSelect.tsx";
+import { setGene } from "./features/gene/geneSlice.ts";
 import InfoHeader from "./components/Header/InfoHeader.tsx";
 
 
@@ -66,6 +67,7 @@ export function App() {
             return;
           }
           else{
+            dispatch(setGene(params.data.gene));
             dispatch(setVariant({
                 ensgId:  params.data.id.ensgId,
                 variantId: params.value,
