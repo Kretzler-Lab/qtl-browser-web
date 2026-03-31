@@ -96,7 +96,26 @@ a:hover {
     background-color: white !important;
   }
 
+  .ag-tooltip {
+    background-color: #ffffff;
+    color: #000;
+    border: 1px solid #ccc;
+    padding: 6px 8px;
+    border-radius: 4px;
+    opacity: 1;
+  }
+
 }
+
+.icon-info {
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.kpmp-light-blue {
+  color: #0275d8;
+}
+
 
 .searchOrCol {
   display: flex;
