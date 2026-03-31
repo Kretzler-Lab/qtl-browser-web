@@ -16,13 +16,17 @@ export const BoxPlot: FC<BoxPlotProps> = ({plotData}) => {
   }
     return (
         <Plot
-            data={plotData.plotData}
+            data={plotData.plotData.map(trace => ({
+              ...trace,
+              boxpoints: false
+            }))}
             layout={{
                 width: 200,
                 height: 300,
                 plot_bgcolor: "#f0f0f0",
                 hovermode: false,
                 dragmode: false,
+
                 margin: {
                     l: 35,
                     r: 0,
