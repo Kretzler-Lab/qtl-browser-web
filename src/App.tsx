@@ -174,7 +174,7 @@ export function App() {
       sortable: true,
       headerComponent: InfoHeader,
       headerComponentParams: {infoIcon: true},
-      headerTooltip: "Minor allele frequency for this variant in the sub-cohort indicated. All subsequent columns are the number of samples having the stated genotype in each cohort"
+      headerTooltip: "Minor allele frequency for this variant in the Diagnosis Cohort indicated."
     },
     {
       headerName: "PVAL",
@@ -190,12 +190,14 @@ export function App() {
       sortable: true,
       headerComponent: InfoHeader,
       headerComponentParams: {infoIcon: true},
-      headerTooltip: "This is the slope of the linear regression for this single SNP and gene expression model. The ‘Slope SE’ field is the standard error for the slope."
+      headerTooltip: "This is the slope of the linear regression for this single SNP and gene expression model."
     },
     {
       headerName: "Beta STD Err",
       field: "slopeSe",
       sortable: true,
+      headerComponentParams: {infoIcon: true},
+      headerTooltip: "The standard error for the slope."
     },
     {
       headerName: "Diagnosis Cohort",
