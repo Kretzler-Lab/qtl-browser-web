@@ -45,6 +45,7 @@ export const VariantEffectsView = () => {
                     maf: item.qtl?.maf.toExponential(3),
                     pval: typeof(item.qtl?.pval) === "number" ? item.qtl?.pval.toExponential(3) : item.qtl?.pval,
                     slope: item.qtl?.slope.toExponential(3),
+                    stderr: item.qtl?.slopeSe.toExponential(3),
                     ggPatients: Array.isArray(item.groups) ? (item.groups.find(g => g.genotype === "0")?.count ?? undefined) : undefined,
                     gaPatients: Array.isArray(item.groups) ? (item.groups.find(g => g.genotype === "1")?.count ?? undefined) : undefined,
                     aaPatients: Array.isArray(item.groups) ? (item.groups.find(g => g.genotype === "2")?.count ?? undefined) : undefined,
