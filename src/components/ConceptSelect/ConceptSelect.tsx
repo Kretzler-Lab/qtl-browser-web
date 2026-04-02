@@ -85,7 +85,6 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ searchType }) => {
                 })
             );
             dispatch(setAutocomplete(result));
-            dispatch(setGene(result.value));
         }
       }
     }
