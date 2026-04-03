@@ -4,7 +4,6 @@ import AsyncSelect from "react-select/async";
 import { fetchAutocomplete } from "../../helpers/ApolloClient";
 import { searchTypes, type AutocompleteResult } from "../../helpers/schema";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { setGene } from "../../features/gene/geneSlice";
 import { setAutocomplete } from "../../features/autocomplete/autocompleteSlice";
 import { setSearchTerm } from "../../features/qtl/qtlSlice";
 
@@ -85,7 +84,6 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ searchType }) => {
                 })
             );
             dispatch(setAutocomplete(result));
-            dispatch(setGene(result.value));
         }
       }
     }
