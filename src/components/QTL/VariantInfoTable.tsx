@@ -71,7 +71,6 @@ export const VariantInfoTable: FC<{
       headerName: "Stderr",
       field: "stderr",
       sortable: true,
-      cellRenderer: () => {return "placeholder"}
     },
     {
       headerName: "pVal",
