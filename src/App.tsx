@@ -196,6 +196,7 @@ export function App() {
       headerName: "Beta STD Err",
       field: "slopeSe",
       sortable: true,
+      headerComponent: InfoHeader,
       headerComponentParams: {infoIcon: true},
       headerTooltip: "The standard error for the slope."
     },
