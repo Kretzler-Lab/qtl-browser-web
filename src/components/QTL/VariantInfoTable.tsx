@@ -68,7 +68,7 @@ export const VariantInfoTable: FC<{
       
     },
     {
-      headerName: "Stderr",
+      headerName: "Slope SE",
       field: "stderr",
       sortable: true,
     },
