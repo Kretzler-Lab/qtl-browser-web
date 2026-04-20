@@ -32,6 +32,7 @@ type RowData = {
   pval: string;
   slope: string;
   slopeSe: string;
+  diagnosis: string
 };
 
 export function App() {
@@ -131,7 +132,7 @@ export function App() {
 			slope: row?.slope.toFixed(3),
 			slopeSe: row?.slopeSe.toFixed(3),
 			tssDistance: row?.tssDistance.toString(),
-            dx: row?.id.dx == "all_co" ? "All": row?.id.dx
+            diagnosis: row?.id.dx == "all_co" ? "All": row?.id.dx
 		})));
 		setRowData(result);
     }
@@ -204,7 +205,7 @@ export function App() {
     },
     {
       headerName: "Diagnosis Cohort",
-      field: "dx",
+      field: "diagnosis",
       sortable: true,
       headerComponent: InfoHeader,
       headerComponentParams: {infoIcon: true},
