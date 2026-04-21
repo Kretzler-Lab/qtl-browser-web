@@ -17,6 +17,7 @@ import {faDownload} from "@fortawesome/free-solid-svg-icons";
 import SNPSelect from "./components/SNPSelect/SNPSelect.tsx";
 import { setGene } from "./features/gene/geneSlice.ts";
 import InfoHeader from "./components/Header/InfoHeader.tsx";
+import {formatNumber} from "./helpers/Utils.tsx";
 
 
 type RowData = {
@@ -31,6 +32,7 @@ type RowData = {
   pval: string;
   slope: string;
   slopeSe: string;
+  diagnosis: string
 };
 
 export function App() {
@@ -125,11 +127,12 @@ export function App() {
 		const result: RowData[] = (data ?? []).map(((row) => ({
 			id: row.id,
 			gene: row?.geneSymbol ?? geneSymbol,
-			maf: row?.maf.toExponential(3),
-			pval: typeof(row?.pval) === "number" ? row?.pval.toExponential(3) : row?.pval, 
-			slope: row?.slope.toExponential(3),
-			slopeSe: row?.slopeSe.toExponential(3),
-			tssDistance: row?.tssDistance.toExponential(3)
+			maf: row?.maf.toFixed(3),
+			pval: typeof(row?.pval) === "number" ? formatNumber(row?.pval) : row?.pval,
+			slope: row?.slope.toFixed(3),
+			slopeSe: row?.slopeSe.toFixed(3),
+			tssDistance: row?.tssDistance.toString(),
+            diagnosis: row?.id.dx == "all_co" ? "All": row?.id.dx
 		})));
 		setRowData(result);
     }
@@ -177,7 +180,7 @@ export function App() {
       headerTooltip: "Minor allele frequency for this variant in the Diagnosis Cohort indicated."
     },
     {
-      headerName: "PVAL",
+      headerName: "pVal",
       field: "pval",
       sortable: true,
       headerComponent: InfoHeader,
@@ -185,7 +188,7 @@ export function App() {
       headerTooltip: "This is the p-value indicating the significance of the single SNP association with the gene expression."
     },
     {
-      headerName: "Slope/Slope SE",
+      headerName: "Slope",
       field: "slope",
       sortable: true,
       headerComponent: InfoHeader,
@@ -193,7 +196,7 @@ export function App() {
       headerTooltip: "This is the slope of the linear regression for this single SNP and gene expression model."
     },
     {
-      headerName: "Beta STD Err",
+      headerName: "Slope SE",
       field: "slopeSe",
       sortable: true,
       headerComponent: InfoHeader,
@@ -202,7 +205,7 @@ export function App() {
     },
     {
       headerName: "Diagnosis Cohort",
-      field: "id.dx",
+      field: "diagnosis",
       sortable: true,
       headerComponent: InfoHeader,
       headerComponentParams: {infoIcon: true},

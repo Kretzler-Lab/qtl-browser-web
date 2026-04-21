@@ -68,7 +68,7 @@ export const VariantInfoTable: FC<{
       
     },
     {
-      headerName: "Stderr",
+      headerName: "Slope SE",
       field: "stderr",
       sortable: true,
     },
@@ -89,17 +89,17 @@ export const VariantInfoTable: FC<{
       headerTooltip: "Minor allele frequency for this variant in the sub-cohort indicated. All subsequent columns are the number of samples having the stated genotype in each cohort"
     },
     {
-      headerName: "GG",
+      headerName: "REF/0",
       field: "ggPatients",
       sortable: true
     },
     {
-      headerName: "GA",
+      headerName: "HET/1",
       field: "gaPatients",
       sortable: true
     },
     {
-      headerName: "AA",
+      headerName: "ALT/2",
       field: "aaPatients",
       sortable: true
     }
