@@ -1,10 +1,15 @@
-import { useEffect, useState }from 'react';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useRef, useState }from 'react';
+import { faInfoCircle, faFilter} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const InfoHeader = (props: any) => {
     const { displayName, enableSorting, column, setSort, infoIcon, api } = props;
     const [ sortState, setSortState ] = useState(column.getSort());
+    const refButton = useRef(null);
+
+    const onMenuClicked = () => {
+        props.showColumnMenu(refButton.current!);
+    };
 
     useEffect(() => {
         const listener = () => {
@@ -21,6 +26,15 @@ const InfoHeader = (props: any) => {
         const nextSort = sortState === 'asc' ? 'desc' : sortState === 'desc' ? null : 'asc';
         setSort(nextSort, false);
         api.onSortChanged();
+    }
+
+    let menu = null;
+    if (props.enableFilterButton) {
+        menu = (
+            <div ref={refButton} className="customHeaderMenuButton" onClick={() => onMenuClicked()}>
+              <span><FontAwesomeIcon icon={faFilter} /></span>
+            </div>
+        );
     }
 
     const getSortArrow = () => {
@@ -43,10 +57,10 @@ const InfoHeader = (props: any) => {
     }
 
     return (
-        <div style={{ whiteSpace: 'normal', lineHeight: 1.2, display: 'flex', alignItems: 'center', cursor: enableSorting ? 'pointer' : 'default' }} 
+        <div style={{ whiteSpace: 'normal', lineHeight: 1.2, display: 'flex', alignItems: 'center', cursor: enableSorting ? 'pointer' : 'default' , textWrap: "nowrap"}} 
             onClick={enableSorting ? toggleSort : undefined}>
-        <span> {displayName}  {headerIcon}</span>
-        <span style={{ marginRight: 4 }}>{getSortArrow()}</span>
+          <span>{menu} {displayName} {headerIcon}</span>
+          <span style={{ marginRight: 4 }}>{getSortArrow()}</span>
         </div>
     );
 

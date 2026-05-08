@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useRef, useState} from "react";
 import {Col, Container, Row} from "reactstrap"
 import ConceptSelect from "./components/ConceptSelect/ConceptSelect"
-import {AllCommunityModule, type GridApi, type GridReadyEvent, ModuleRegistry} from 'ag-grid-community';
+import {AllCommunityModule, type GridApi, type GridReadyEvent, ModuleRegistry, TextFilterModule, TooltipModule} from 'ag-grid-community';
 import type { ColDef } from 'ag-grid-community';
 import {AgGridReact, type CustomCellRendererProps} from 'ag-grid-react';
 import { fetchFindByIdEnsgId } from "./helpers/ApolloClient";
@@ -9,7 +9,7 @@ import { useAppSelector } from "./app/hooks";
 import { Spinner} from "reactstrap";
 import {setVariant} from "./features/variant/variantSlice.ts";
 import {searchTypes, type AutocompleteResult, type Qtl, type searchTerm} from "./helpers/schema.tsx";
-ModuleRegistry.registerModules([AllCommunityModule]);
+ModuleRegistry.registerModules([AllCommunityModule, TextFilterModule, TooltipModule]);
 import { useAppDispatch } from "./app/hooks";
 import {useNavigate} from "react-router";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -192,7 +192,7 @@ export function App() {
       field: "slope",
       sortable: true,
       headerComponent: InfoHeader,
-      headerComponentParams: {infoIcon: true},
+      headerComponentParams: {infoIcon: true},      
       headerTooltip: "This is the slope of the linear regression for this single SNP and gene expression model."
     },
     {
@@ -209,7 +209,9 @@ export function App() {
       sortable: true,
       headerComponent: InfoHeader,
       headerComponentParams: {infoIcon: true},
-      headerTooltip: "This is the diagnosis sub-cohort represented in the given row. The value of ‘All’ refers to all samples combined and analyzed together."
+      headerTooltip: "This is the diagnosis sub-cohort represented in the given row. The value of ‘All’ refers to all samples combined and analyzed together.",
+      filter: "agTextColumnFilter",
+      initialWidth: 250
     }
   ]);
 
@@ -257,6 +259,7 @@ export function App() {
                 pagination={true}
                 paginationPageSize={20}
                 onGridReady={onGridReady}
+                tooltipShowDelay={500}
               />
             </Col>
             <small><span>* chrom-pos-ref-alternate</span></small>
