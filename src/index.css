@@ -35,6 +35,11 @@ a:hover {
   width: 100px;
   height: 42px;
 }
+#navbar .btn-secondary {
+  background-color: #fff !important;
+  border-color: #fff !important;
+  color: rgba(0, 0, 0, 0.5490196078) !important;
+}
 
 .container-fluid {
   margin-left: 0px !important;
@@ -75,6 +80,11 @@ a:hover {
 }
 .ag-theme-material .ag-header-active {
   background-color: white !important;
+}
+.ag-theme-material .customHeaderMenuButton {
+  float: left;
+  margin: 0 0 0 3px;
+  cursor: pointer;
 }
 .ag-theme-material .ag-tooltip {
   background-color: #ffffff;
