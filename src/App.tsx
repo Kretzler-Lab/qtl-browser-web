@@ -209,7 +209,14 @@ export function App() {
       sortable: true,
       headerComponent: InfoHeader,
       headerComponentParams: {infoIcon: true},
-      headerTooltip: "This is the diagnosis sub-cohort represented in the given row. The value of ‘All’ refers to all samples combined and analyzed together.",
+      headerTooltip: `This is the diagnosis sub-cohort represented in the given row.
+
+      FSGS: Focal Segmental Glomerulosclerosis
+      MCD: Minimal Change Disease
+      MN: Membranous Nephropathy 
+      IgAN: IgA Nephropathy
+      IgAV: IgA Vasculitis 
+      All: All samples combined and analyzed together.`,
       filter: "agTextColumnFilter",
       initialWidth: 250
     }
