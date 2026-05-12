@@ -43,7 +43,7 @@ export const BoxPlot: FC<BoxPlotProps> = ({plotData}) => {
                 },
                 yaxis: {
                     title: {
-                        text: plotData.gene + ' expression',
+                        text: "Normalized expression",
                         font: {family: 'Arial, sans-serif', size: 14, color: '#333'},
                         standoff: 40
                     },

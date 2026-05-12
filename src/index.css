@@ -31,9 +31,11 @@ a:hover {
 #navbar .navbar-header {
   text-decoration: none !important;
 }
+#navbar .navbar-header .navbar-brand {
+  padding: 0 1rem;
+}
 #navbar .navbar-header .navbar-brand img.logo {
-  width: 100px;
-  height: 42px;
+  height: 2rem;
 }
 #navbar .btn-secondary {
   background-color: #fff !important;
@@ -93,6 +95,7 @@ a:hover {
   padding: 6px 8px;
   border-radius: 4px;
   opacity: 1;
+  white-space: pre-line;
 }
 
 .icon-info {

@@ -51,7 +51,7 @@ export const VariantInfoTable: FC<{
 
   const [columns] = useState<ColDef<RowData>[]>([
     {
-      headerName: "Diagnosis",
+      headerName: "Diagnosis Cohort",
       field: "disease",
       sortable: true,
       headerComponent: InfoHeader,
@@ -80,7 +80,7 @@ export const VariantInfoTable: FC<{
       sortable: true,
     },
     {
-      headerName: "pVal",
+      headerName: "P-Value",
       field: "pval",
       sortable: true,
       headerComponent: InfoHeader,

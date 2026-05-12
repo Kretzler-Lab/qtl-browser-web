@@ -107,7 +107,7 @@ export const VariantEffectsView = () => {
         <div className="container mt-3">
             <Row xs={12}>
               <Col xs={8} style={{"display":"flex", "alignItems":"center"}}>
-                <h5>Variant effects for {variant_id}</h5>
+                <h4>Gene: {gene}<br/>Variant ID: {variant_id}</h4>
               </Col>
               <Col xs={4} className="text-end text-primary ">
                 <button onClick={() => {window.history.back()}} type='button' className='btn btn-link'>
@@ -117,37 +117,37 @@ export const VariantEffectsView = () => {
             <Row className="mb-5">
                 <Col xs={2} className='text-center'>
                     <BoxPlot plotData={boxplot_data["FSGS"]}/>
-                    <span>pVal: {qtlInfoArray[0].pval}</span>
+                    <span>P-Value: {qtlInfoArray[0].pval}</span>
                 </Col>
                 <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["MCD"]}
                     />
-                    <span>pVal: {qtlInfoArray[5].pval}</span>
+                    <span>P-Value: {qtlInfoArray[5].pval}</span>
                 </Col>
                 <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["MN"]}
                     />
-                    <span>pVal: {qtlInfoArray[1].pval}</span>
+                    <span>P-Value: {qtlInfoArray[1].pval}</span>
                 </Col>
                 <Col xs={2} className='text-center'>
                     <BoxPlot
-                        plotData={boxplot_data["igAN"]}
+                        plotData={boxplot_data["IgAN"]}
                     />
-                    <span>pVal: {qtlInfoArray[2].pval}</span>
+                    <span>P-Value: {qtlInfoArray[2].pval}</span>
                 </Col>
                 <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["IgAV"]}
                     />
-                    <span>pVal: {qtlInfoArray[3].pval}</span>
+                    <span>P-Value: {qtlInfoArray[3].pval}</span>
                 </Col>
                 <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["All"]}
                     />
-                    <span>pVal: {qtlInfoArray[4].pval}</span>
+                    <span>P-Value: {qtlInfoArray[4].pval}</span>
                 </Col>
             </Row>
             <Row>
