@@ -34,10 +34,12 @@ a:hover {
 
 		text-decoration: none !important;
 
-		.navbar-brand img.logo {
-			width: 100px;
-            height: 42px;
-		}
+		.navbar-brand {
+      margin: 0 1rem;
+      img.logo {
+        height: 2rem;
+      }
+    } 
 	}
 
   .btn-secondary {
