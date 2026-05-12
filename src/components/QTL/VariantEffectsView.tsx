@@ -6,12 +6,13 @@ import {fetchBoxplotData} from "../../helpers/ApolloClient.tsx";
 import type {BoxplotVizData} from "../../helpers/schema.tsx";
 import { useAppSelector } from '../../app/hooks.ts';
 import {VariantInfoTable} from "./VariantInfoTable.tsx";
-import {formatNumber} from "../../helpers/Utils.tsx";
+import {formatNumber, generateGenotypeLabels} from "../../helpers/Utils.tsx";
 export interface DiseasePlotContainer {
     plotData: Data[];
     disease: string;
     gene: string;
     variant: string;
+    genotypeLabels?: string[];
 }
 
 export const VariantEffectsView = () => {
@@ -59,28 +60,33 @@ export const VariantEffectsView = () => {
                 }, {} as Record<string, BoxplotVizData>);
 
                 const colors = ['#636EFA', '#EF553B', '#00CC96'];
+                const genotypeLabels = generateGenotypeLabels(variant_id);
 
                 const plotsByDisease = Object.keys(mappedDiseases as Object).reduce<Record<string, DiseasePlotContainer>>((acc, disease) => {
                     const diseaseData = mappedDiseases[disease];
 
-                    const traces: Data[] = diseaseData.groups.map((group: any, index: number) => ({
-                        x: group.phenotypes.map(() => `${group.genotype}`),
-                        y: group.phenotypes.map((val: any) => parseFloat(val)),
-                        name: `${group.genotype}`,
-                        type: 'box',
-                        marker: {
-                            color: colors[index % colors.length]
-                        },
-                        boxpoints: 'all',
-                        jitter: 0.3,
-                        pointpos: -1.8
-                    }));
+                    const traces: Data[] = diseaseData.groups.map((group: any, index: number) => {
+                        const label = genotypeLabels[parseInt(group.genotype)];
+                        return {
+                            x: group.phenotypes.map(() => label),
+                            y: group.phenotypes.map((val: any) => parseFloat(val)),
+                            name: label,
+                            type: 'box',
+                            marker: {
+                                color: colors[index % colors.length]
+                            },
+                            boxpoints: 'all',
+                            jitter: 0.3,
+                            pointpos: -1.8
+                        };
+                    });
 
                     acc[disease] = {
                         plotData: traces,
                         disease: disease,
                         gene: gene,
-                        variant: variant_id
+                        variant: variant_id,
+                        genotypeLabels: genotypeLabels
                     };
 
                     return acc;
