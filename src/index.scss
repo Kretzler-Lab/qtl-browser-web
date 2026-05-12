@@ -34,11 +34,19 @@ a:hover {
 
 		text-decoration: none !important;
 
-		.navbar-brand img.logo {
-			width: 100px;
-            height: 42px;
-		}
+		.navbar-brand {
+      margin: 0 1rem;
+      img.logo {
+        height: 2rem;
+      }
+    } 
 	}
+
+  .btn-secondary {
+    background-color: #fff !important;
+    border-color: #fff !important;
+    color: #0000008c !important;
+  }
 }
 
 .container-fluid {
@@ -109,6 +117,7 @@ a:hover {
     padding: 6px 8px;
     border-radius: 4px;
     opacity: 1;
+    white-space: pre-line;
   }
 
 }

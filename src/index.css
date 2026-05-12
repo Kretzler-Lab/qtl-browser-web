@@ -31,9 +31,16 @@ a:hover {
 #navbar .navbar-header {
   text-decoration: none !important;
 }
+#navbar .navbar-header .navbar-brand {
+  padding: 0 1rem;
+}
 #navbar .navbar-header .navbar-brand img.logo {
-  width: 100px;
-  height: 42px;
+  height: 2rem;
+}
+#navbar .btn-secondary {
+  background-color: #fff !important;
+  border-color: #fff !important;
+  color: rgba(0, 0, 0, 0.5490196078) !important;
 }
 
 .container-fluid {
@@ -76,6 +83,11 @@ a:hover {
 .ag-theme-material .ag-header-active {
   background-color: white !important;
 }
+.ag-theme-material .customHeaderMenuButton {
+  float: left;
+  margin: 0 0 0 3px;
+  cursor: pointer;
+}
 .ag-theme-material .ag-tooltip {
   background-color: #ffffff;
   color: #000;
@@ -83,6 +95,7 @@ a:hover {
   padding: 6px 8px;
   border-radius: 4px;
   opacity: 1;
+  white-space: pre-line;
 }
 
 .icon-info {
