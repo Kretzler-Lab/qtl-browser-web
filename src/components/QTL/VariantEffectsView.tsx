@@ -51,7 +51,7 @@ export const VariantEffectsView = () => {
                     ggPatients: Array.isArray(item.groups) ? (item.groups.find(g => g.genotype === "0")?.count ?? undefined) : undefined,
                     gaPatients: Array.isArray(item.groups) ? (item.groups.find(g => g.genotype === "1")?.count ?? undefined) : undefined,
                     aaPatients: Array.isArray(item.groups) ? (item.groups.find(g => g.genotype === "2")?.count ?? undefined) : undefined,
-                    disease: item.disease
+                    disease: item.disease.replace('igAN', 'IgAN')
                 }));
                 setQtlInfoArray(qtlInfo);
                 const mappedDiseases: Record<string, BoxplotVizData> = Object.values(box_data).reduce<Record<string, BoxplotVizData>>((acc: any, curr: any) => {
