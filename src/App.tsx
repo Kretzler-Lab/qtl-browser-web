@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useRef, useState} from "react";
 import {Col, Container, Row} from "reactstrap"
 import ConceptSelect from "./components/ConceptSelect/ConceptSelect"
-import {AllCommunityModule, type GridApi, type GridReadyEvent, ModuleRegistry, TextFilterModule, TooltipModule} from 'ag-grid-community';
+import {AllCommunityModule, type GridApi, type GridReadyEvent, ModuleRegistry, TextFilterModule, TooltipModule, CustomFilterModule} from 'ag-grid-community';
 import type { ColDef } from 'ag-grid-community';
 import {AgGridReact, type CustomCellRendererProps} from 'ag-grid-react';
 import { fetchFindByIdEnsgId } from "./helpers/ApolloClient";
@@ -9,7 +9,7 @@ import { useAppSelector } from "./app/hooks";
 import { Spinner} from "reactstrap";
 import {setVariant} from "./features/variant/variantSlice.ts";
 import {searchTypes, type AutocompleteResult, type Qtl, type searchTerm} from "./helpers/schema.tsx";
-ModuleRegistry.registerModules([AllCommunityModule, TextFilterModule, TooltipModule]);
+ModuleRegistry.registerModules([AllCommunityModule, TextFilterModule, TooltipModule, CustomFilterModule]);
 import { useAppDispatch } from "./app/hooks";
 import {useNavigate} from "react-router";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -18,6 +18,7 @@ import SNPSelect from "./components/SNPSelect/SNPSelect.tsx";
 import { setGene } from "./features/gene/geneSlice.ts";
 import InfoHeader from "./components/Header/InfoHeader.tsx";
 import {formatNumber} from "./helpers/Utils.tsx";
+import CustomTextFilter from "./components/Filter/CustomTextFilter.tsx";
 
 
 type RowData = {
@@ -217,7 +218,20 @@ export function App() {
       IgAN: IgA Nephropathy
       IgAV: IgA Vasculitis 
       All: All samples combined and analyzed together.`,
-      filter: "agTextColumnFilter",
+      filter: {
+        component: CustomTextFilter,
+        doesFilterPass: (params:any) => {
+          const { model, handlerParams, node } = params;
+          if (model == null) return true;
+          
+          const cellValue = handlerParams.getValue(node);
+          if (cellValue == null) return false;
+          
+          const cellStr = String(cellValue).toLowerCase();
+          const filterStr = String(model).toLowerCase();
+          return cellStr.includes(filterStr);
+        },
+      },
       initialWidth: 250
     }
   ]);
@@ -267,6 +281,7 @@ export function App() {
                 paginationPageSize={20}
                 onGridReady={onGridReady}
                 tooltipShowDelay={500}
+                enableFilterHandlers={true}
               />
             </Col>
             <small><span>* chrom-pos-ref-alternate</span></small>
