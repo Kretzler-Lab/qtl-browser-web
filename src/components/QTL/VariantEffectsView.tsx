@@ -6,12 +6,13 @@ import {fetchBoxplotData} from "../../helpers/ApolloClient.tsx";
 import type {BoxplotVizData} from "../../helpers/schema.tsx";
 import { useAppSelector } from '../../app/hooks.ts';
 import {VariantInfoTable} from "./VariantInfoTable.tsx";
-import {formatNumber} from "../../helpers/Utils.tsx";
+import {formatNumber, generateGenotypeLabels} from "../../helpers/Utils.tsx";
 export interface DiseasePlotContainer {
     plotData: Data[];
     disease: string;
     gene: string;
     variant: string;
+    genotypeLabels?: string[];
 }
 
 export const VariantEffectsView = () => {
@@ -59,28 +60,33 @@ export const VariantEffectsView = () => {
                 }, {} as Record<string, BoxplotVizData>);
 
                 const colors = ['#636EFA', '#EF553B', '#00CC96'];
+                const genotypeLabels = generateGenotypeLabels(variant_id);
 
                 const plotsByDisease = Object.keys(mappedDiseases as Object).reduce<Record<string, DiseasePlotContainer>>((acc, disease) => {
                     const diseaseData = mappedDiseases[disease];
 
-                    const traces: Data[] = diseaseData.groups.map((group: any, index: number) => ({
-                        x: group.phenotypes.map(() => `${group.genotype}`),
-                        y: group.phenotypes.map((val: any) => parseFloat(val)),
-                        name: `${group.genotype}`,
-                        type: 'box',
-                        marker: {
-                            color: colors[index % colors.length]
-                        },
-                        boxpoints: 'all',
-                        jitter: 0.3,
-                        pointpos: -1.8
-                    }));
+                    const traces: Data[] = diseaseData.groups.map((group: any, index: number) => {
+                        const label = genotypeLabels[parseInt(group.genotype)];
+                        return {
+                            x: group.phenotypes.map(() => label),
+                            y: group.phenotypes.map((val: any) => parseFloat(val)),
+                            name: label,
+                            type: 'box',
+                            marker: {
+                                color: colors[index % colors.length]
+                            },
+                            boxpoints: 'all',
+                            jitter: 0.3,
+                            pointpos: -1.8
+                        };
+                    });
 
                     acc[disease] = {
                         plotData: traces,
                         disease: disease,
                         gene: gene,
-                        variant: variant_id
+                        variant: variant_id,
+                        genotypeLabels: genotypeLabels
                     };
 
                     return acc;
@@ -107,7 +113,7 @@ export const VariantEffectsView = () => {
         <div className="container mt-3">
             <Row xs={12}>
               <Col xs={8} style={{"display":"flex", "alignItems":"center"}}>
-                <h5>Variant effects for {variant_id}</h5>
+                <h4>Gene: {gene}<br/>Variant ID: {variant_id}</h4>
               </Col>
               <Col xs={4} className="text-end text-primary ">
                 <button onClick={() => {window.history.back()}} type='button' className='btn btn-link'>
@@ -117,37 +123,37 @@ export const VariantEffectsView = () => {
             <Row className="mb-5">
                 <Col xs={2} className='text-center'>
                     <BoxPlot plotData={boxplot_data["FSGS"]}/>
-                    <span>pVal: {qtlInfoArray[0].pval}</span>
+                    <span>P-Value: {qtlInfoArray[0].pval}</span>
                 </Col>
                 <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["MCD"]}
                     />
-                    <span>pVal: {qtlInfoArray[5].pval}</span>
+                    <span>P-Value: {qtlInfoArray[5].pval}</span>
                 </Col>
                 <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["MN"]}
                     />
-                    <span>pVal: {qtlInfoArray[1].pval}</span>
+                    <span>P-Value: {qtlInfoArray[1].pval}</span>
                 </Col>
                 <Col xs={2} className='text-center'>
                     <BoxPlot
-                        plotData={boxplot_data["igAN"]}
+                        plotData={boxplot_data["IgAN"]}
                     />
-                    <span>pVal: {qtlInfoArray[2].pval}</span>
+                    <span>P-Value: {qtlInfoArray[2].pval}</span>
                 </Col>
                 <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["IgAV"]}
                     />
-                    <span>pVal: {qtlInfoArray[3].pval}</span>
+                    <span>P-Value: {qtlInfoArray[3].pval}</span>
                 </Col>
                 <Col xs={2} className='text-center'>
                     <BoxPlot
                         plotData={boxplot_data["All"]}
                     />
-                    <span>pVal: {qtlInfoArray[4].pval}</span>
+                    <span>P-Value: {qtlInfoArray[4].pval}</span>
                 </Col>
             </Row>
             <Row>

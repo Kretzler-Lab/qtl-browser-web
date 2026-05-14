@@ -31,9 +31,7 @@ export function NavBar () {
               <Link to='/' className="navbar-header d-flex align-items-center text-decoration-none">
                   <NavbarBrand className="d-flex align-items-center">
                       <img src='/img/CureGN_logo.png' alt='logo' className='logo'/>
-                      <span className='ml-2 text-dark' id="nav-title" style={{ whiteSpace: 'nowrap' }}>
-          CureGN QTL Browser
-        </span>
+                        <span className='ml-2 text-dark' id="nav-title" style={{ whiteSpace: 'nowrap' }}>QTL Browser</span>
                   </NavbarBrand>
               </Link>
 

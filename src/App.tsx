@@ -162,7 +162,7 @@ export function App() {
       sortable: true,
     },
     {
-      headerName: "Variant Loci*",
+      headerName: "Variant ID",
       field: "id.variantId",
       sortable: true,
       cellRenderer: LinkRenderer
@@ -171,6 +171,9 @@ export function App() {
       headerName: "TSS Distance",
       field: "tssDistance",
       sortable: true,
+      headerComponent: InfoHeader,
+      headerComponentParams: {infoIcon: true},      
+      headerTooltip: "The distance of the variant from the listed gene's transcriptional start site."
     },
     {
       headerName: "MAF",
@@ -179,14 +182,6 @@ export function App() {
       headerComponent: InfoHeader,
       headerComponentParams: {infoIcon: true},
       headerTooltip: "Minor allele frequency for this variant in the Diagnosis Cohort indicated."
-    },
-    {
-      headerName: "pVal",
-      field: "pval",
-      sortable: true,
-      headerComponent: InfoHeader,
-      headerComponentParams: {infoIcon: true},
-      headerTooltip: "This is the p-value indicating the significance of the single SNP association with the gene expression."
     },
     {
       headerName: "Slope",
@@ -203,6 +198,14 @@ export function App() {
       headerComponent: InfoHeader,
       headerComponentParams: {infoIcon: true},
       headerTooltip: "The standard error for the slope."
+    },
+    {
+      headerName: "P-Value",
+      field: "pval",
+      sortable: true,
+      headerComponent: InfoHeader,
+      headerComponentParams: {infoIcon: true},
+      headerTooltip: "This is the p-value indicating the significance of the single SNP association with the gene expression."
     },
     {
       headerName: "Diagnosis Cohort",
@@ -239,7 +242,7 @@ export function App() {
   return (
     <div>
       <div className="container mt-3">
-        <h1>CureGN QTL Browser</h1>
+        <h1>Quantitative Trait Locus Browser</h1>
       </div>
       <Container className='mt-3 rounded border p-3 shadow-sm'>
         <Row>
