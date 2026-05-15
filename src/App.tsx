@@ -124,16 +124,17 @@ export function App() {
 		if (!data) {
 			return;
 		}
-		const result: RowData[] = (data ?? []).map(((row) => ({
-			id: row.id,
-			gene: row?.geneSymbol ?? geneSymbol,
-			maf: row?.maf.toFixed(3),
-			pval: typeof(row?.pval) === "number" ? formatNumber(row?.pval) : row?.pval,
-			slope: row?.slope.toFixed(3),
-			slopeSe: row?.slopeSe.toFixed(3),
-			tssDistance: row?.tssDistance.toString(),
-            diagnosis: row?.id.dx == "all_co" ? "All": row?.id.dx
-		})));
+		const result: RowData[] = (data ?? []).map((row) => (
+      {
+        id: row.id,
+        gene: row?.geneSymbol ?? geneSymbol,
+        maf: row?.maf.toFixed(3),
+        pval: typeof(row?.pval) === "number" ? formatNumber(row?.pval) : row?.pval,
+        slope: row?.slope.toFixed(3),
+        slopeSe: row?.slopeSe.toFixed(3),
+        tssDistance: row?.tssDistance.toString(),
+        diagnosis: row?.id.dx == "all_co" ? "All": row?.id.dx.replace('igAN', 'IgAN')
+		}));
 		setRowData(result);
     }
 

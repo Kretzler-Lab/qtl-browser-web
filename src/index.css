@@ -32,7 +32,7 @@ a:hover {
   text-decoration: none !important;
 }
 #navbar .navbar-header .navbar-brand {
-  padding: 0 1rem;
+  margin: 0 1rem;
 }
 #navbar .navbar-header .navbar-brand img.logo {
   height: 2rem;
