@@ -30,7 +30,7 @@ export const BoxPlot: FC<BoxPlotProps> = ({plotData}) => {
                 margin: {
                     l: 35,
                     r: 0,
-                    b: 30,
+                    b: 60,
                     t: 30
                 },
                 xaxis: {
