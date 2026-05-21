@@ -9,6 +9,7 @@ import { store } from './app/store.ts';
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor } from './app/store.ts';
+import { About } from './components/About/About.tsx';
 store.subscribe(function () {
   console.log(store.getState());
 })
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
             <Routes>
               <Route path='/' element={<App />} />
               <Route path='effects' element={<VariantEffectsView />} />
+              <Route path='about' element={<About />} />
             </Routes>
         </BrowserRouter>
     </PersistGate>
