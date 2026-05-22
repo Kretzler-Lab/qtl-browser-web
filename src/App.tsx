@@ -245,6 +245,11 @@ export function App() {
       <div className="container mt-3">
         <h1>Quantitative Trait Locus Browser</h1>
       </div>
+        <div className="container mt-3">
+            <p>The CureGN QTL Browser is a comprehensive public resource to study the genetic effects of blood gene regulation across five different glomerular disorders.&nbsp;
+             <a href={"/about"}>Click here to read more about the data.</a></p>
+      <p>Get started by entering your gene or SNP of interest below:</p>
+        </div>
       <Container className='mt-3 rounded border p-3 shadow-sm'>
         <Row>
           <Col>
