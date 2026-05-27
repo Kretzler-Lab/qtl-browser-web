@@ -117,4 +117,43 @@ a:hover {
   display: inline;
 }
 
+.custom-text-filter {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  height: 100%;
+}
+
+.custom-text-filter__input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.custom-text-filter__input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 3px rgba(0, 102, 204, 0.3);
+}
+
+.custom-text-filter__input::placeholder {
+  color: #999;
+}
+
+.purple-header {
+  background-color: #b4a7d6 !important;
+  color: black !important;
+  font-weight: bold !important;
+}
+
+.purple-bold-cell {
+  background-color: #d9d2e9 !important;
+  color: black !important;
+  font-weight: bold !important;
+}
+
 /*# sourceMappingURL=index.css.map */
