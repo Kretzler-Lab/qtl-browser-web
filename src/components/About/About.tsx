@@ -17,7 +17,7 @@ type RowData = {
 export function About() {
   const highlightedCharacteristics = ['Age', 'Sex', 'Ancestry', 'Disease', 'Baseline function values'];
 
-  const [columns, setColumns] = useState<ColDef<RowData>[]>([
+  const [columns] = useState<ColDef<RowData>[]>([
   { 
     field: 'characteristic', 
     headerName: 'Characteristic', 
@@ -52,7 +52,7 @@ const onGridReady = useCallback((params:GridReadyEvent) => {
         gridApiRef.current = params.api;
     }, []);
 
-const [rowData, setRowData] = useState<RowData[]>([
+const [rowData] = useState<RowData[]>([
   { characteristic: "Age", numberOfParticipants: '', range: '', median: ''},
   { characteristic: "At enrollment (years)", numberOfParticipants: 1822, range: '2-90', median: 45 },
   { characteristic: "At onset of disease (years) ", numberOfParticipants: 1822, range: '2-90', median: 45 },
