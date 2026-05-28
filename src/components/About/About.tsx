@@ -87,7 +87,7 @@ const [rowData] = useState<RowData[]>([
       <div className="container mt-3">
         <h3>Introduction</h3>
         <p>
-          The CureGN QTL Browser is a comprehensive public resource to study the genetic effects of blood gene regulation across five different glomerular disorders. 
+          The CureGN QTL Browser is a comprehensive  resource to study the genetic effects of blood gene regulation across five different glomerular disorders. 
           The project collected blood samples from 1,822 patients with primary glomerulonephropathies, including 450 FSGS, 403 IgAN, 123 IgAV, 408 MCD, and 442 MN cases. 
           All individuals were whole-genome sequenced at 30x depth, and blood transcriptome profiles were generated using RNA sequencing. 
           <br />
@@ -117,7 +117,7 @@ const [rowData] = useState<RowData[]>([
       <h3>Technical Details</h3>
       <Row className="flex-column align-items-center">
         <Col xs={10}>
-          <img className="img-fluid" src="public/img/technical-details.png"></img>
+          <img className="img-fluid" src="/img/technical-details.png"></img>
         </Col>
       </Row>
 
@@ -126,13 +126,13 @@ const [rowData] = useState<RowData[]>([
       <p>You may start a search by typing the first few letters of your gene of interest and selecting the matching suggestion: </p>
       <Row className="flex-column align-items-center">
         <Col xs={10}>
-          <img className="img-fluid" src='public/img/gene-search.png' />
+          <img className="img-fluid" src='/img/gene-search.png' />
 
         <br />
 
         <p>Or you can start with your SNP location of interest. Type in a SNP location and press ENTER for the resulting list of genes:</p>
-            <img className="img-fluid" src='public/img/snp-search.png' />
-            <img className="img-fluid" src='public/img/results.png' />
+            <img className="img-fluid" src='/img/snp-search.png' />
+            <img className="img-fluid" src='/img/results.png' />
           </Col>
         </Row>
 
