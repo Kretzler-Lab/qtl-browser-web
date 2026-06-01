@@ -10,6 +10,7 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor } from './app/store.ts';
 import { About } from './components/About/About.tsx';
+import { Footer } from './components/Nav/Footer.tsx';
 store.subscribe(function () {
   console.log(store.getState());
 })
@@ -19,11 +20,16 @@ createRoot(document.getElementById('root')!).render(
     <PersistGate loading={null} persistor={persistor} >
       <BrowserRouter>
             <NavBar />
-            <Routes>
-              <Route path='/' element={<App />} />
-              <Route path='effects' element={<VariantEffectsView />} />
-              <Route path='about' element={<About />} />
-            </Routes>
+            <div className='app'>
+              <Routes>
+                <Route path='/' element={<App />} />
+                <Route path='effects' element={<VariantEffectsView />} />
+                <Route path='about' element={<About />} />
+              </Routes>
+            </div>
+            <div className='footer'>
+              <Footer />
+            </div>
         </BrowserRouter>
     </PersistGate>
   </Provider >
