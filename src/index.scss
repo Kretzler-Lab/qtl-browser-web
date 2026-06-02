@@ -181,3 +181,24 @@ a:hover {
   color: black !important;
   font-weight: bold !important;
 }
+
+.app {
+  min-height: 75vh;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.footer {
+  bottom: 0;
+  position: relative;
+}
+
+#cardfooter {    
+  padding: 2rem 5rem 0.5rem 5rem;
+  background-color: #f8f7ff;
+  color: #1d224e;
+  font-size: smaller;
+  .logo {
+    margin-bottom: 1rem;
+  }
+}
