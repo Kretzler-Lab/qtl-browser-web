@@ -29,7 +29,7 @@ export const VariantEffectsView = () => {
         const getData = async () => {
             setLoading(true);
             try {
-                const box_data: BoxplotVizData[] = (await fetchBoxplotData(variant_id, ensg_id)).filter((item: BoxplotVizData) => item?.qtl != null);
+                const box_data: BoxplotVizData[] = await fetchBoxplotData(variant_id, ensg_id);
 
                 if (!box_data) {
                     setQtlInfoArray([]);
@@ -37,7 +37,7 @@ export const VariantEffectsView = () => {
                 }
 
                 // Build QTL info array for table using correct structure
-                const qtlInfo = box_data.map((item: BoxplotVizData) => ({
+                const qtlInfo = box_data.filter((item: BoxplotVizData) => item?.qtl != null).map((item: BoxplotVizData) => ({
                     gene: item.qtl?.id?.ensgId,
                     id: {
                         variantId: item.qtl?.id?.variantId,
@@ -125,10 +125,16 @@ export const VariantEffectsView = () => {
             <Row className="mb-5">
                 {
                     Object.entries(boxplot_data).map(([_, data]) => 
-                        <Col xs={2} className='text-center'>
-                            <BoxPlot plotData={data} />
-                            <span>P-Value: {data.pval}</span>
-                        </Col>
+                        (data.pval) ?
+                            <Col xs={2} className='text-center boxplot-text'>
+                                <BoxPlot plotData={data} />
+                                <span>P-Value: {data.pval}</span>
+                            </Col>
+                        : 
+                            <Col xs={2} className='text-center boxplot-text'>
+                                <h3>No Data</h3>
+                                <p>{data.disease}</p> 
+                            </Col>
                     )
                 }
             </Row>
