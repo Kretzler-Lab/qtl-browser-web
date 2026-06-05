@@ -168,14 +168,24 @@ a:hover {
 }
 
 #cardfooter {
-  padding: 2rem;
-  padding-bottom: 0.5rem;
+  padding: 2rem 5rem 0.5rem 5rem;
   background-color: #f8f7ff;
   color: #1d224e;
   font-size: smaller;
 }
 #cardfooter .logo {
   margin-bottom: 1rem;
+}
+
+.boxplot-text {
+  display: grid;
+  justify-content: center;
+  align-items: end;
+}
+.boxplot-text p {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
 }
 
 /*# sourceMappingURL=index.css.map */
