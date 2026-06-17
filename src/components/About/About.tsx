@@ -80,7 +80,7 @@ const [rowData] = useState<RowData[]>([
 
   return (
 
-    <Container className='mt-3 rounded border p-3 shadow-sm'>
+    <Container className='mt-3 mb-5 rounded border p-3 shadow-sm'>
       <div className="container mt-3">
         <h1>Welcome to the CureGN QTL Browser</h1>
       </div>

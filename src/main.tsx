@@ -19,8 +19,8 @@ createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor} >
       <BrowserRouter>
-            <NavBar />
-            <div className='app'>
+            <div id='app'>
+              <NavBar />
               <Routes>
                 <Route path='/' element={<App />} />
                 <Route path='effects' element={<VariantEffectsView />} />
