@@ -156,9 +156,12 @@ a:hover {
   font-weight: bold !important;
 }
 
-.app {
-  min-height: 75vh;
-  margin-bottom: 2rem;
+html, body {
+  height: 100%;
+}
+
+#app {
+  min-height: calc(100vh - 153px);
   position: relative;
 }
 
@@ -168,7 +171,7 @@ a:hover {
 }
 
 #cardfooter {
-  padding: 2rem 5rem 0.5rem 5rem;
+  padding: 2rem 1.5rem 0.5rem 1.5rem;
   background-color: #f8f7ff;
   color: #1d224e;
   font-size: smaller;

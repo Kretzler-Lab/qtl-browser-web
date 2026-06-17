@@ -273,7 +273,7 @@ export function App() {
         )}
 
         {!isLoading && rowData.length > 0 && (
-            <Container className='mt-3 rounded border p-3 shadow-sm'>
+            <Container className='mt-3 mb-5 rounded border p-3 shadow-sm'>
           <Row className="mt-4">
             <h5>Results for {searchTerm?.term} </h5>
             <Col xs='12' className="ag-theme-material img-fluid mt-2">
@@ -299,7 +299,7 @@ export function App() {
         )}
 
         {!isLoading && rowData.length === 0 && autocompleteResult?.ensg_id && (
-            <Container className='mt-3 rounded border p-3 shadow-sm'>
+            <Container className='mt-3 mb-5 rounded border p-3 shadow-sm'>
 
             <div className="text-muted mt-3">
             No results found for {searchTerm?.term}.{searchTerm?.type == searchTypes.autoComplete && (" The gene you selected may have been filtered out due to low expression or other criteria.")} 
@@ -308,7 +308,7 @@ export function App() {
         )}
         
         {searchTerm?.type == searchTypes.autoComplete && autocompleteResult && !isLoading && noEnsgId && (
-            <Container className='mt-3 rounded border p-3 shadow-sm'>
+            <Container className='mt-3 mb-5 rounded border p-3 shadow-sm'>
 
             <div className="text-muted mt-3">
           This gene does not have an ENSG ID, so no data can be retrieved. Please select a different gene.

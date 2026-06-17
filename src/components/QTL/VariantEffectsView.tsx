@@ -112,7 +112,7 @@ export const VariantEffectsView = () => {
         </div>
     }
     return (
-        <div className="container mt-3">
+        <div className="container mt-3 mb-5">
             <Row xs={12}>
                 <Col xs={8} style={{ "display": "flex", "alignItems": "center" }}>
                     <h4>Gene: {gene}<br />Variant ID: {variant_id}</h4>
