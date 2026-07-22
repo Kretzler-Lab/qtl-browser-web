@@ -69,7 +69,7 @@ export const VariantInfoTable: FC<{
         sortable: true,
       },
       {
-        headerName: "pVal",
+        headerName: "P-Value",
         field: "pval",
         sortable: true,
         headerComponent: InfoHeader,
