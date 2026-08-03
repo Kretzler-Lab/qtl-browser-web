@@ -9,6 +9,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons";
 import InfoHeader from '../Header/InfoHeader';
 import {generateGenotypeLabels} from '../../helpers/Utils.tsx';
+import { handleGoogleAnayticsEvent } from '../../helpers/googleAnalyticsHelpers.ts';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 type RowData = {
@@ -118,6 +119,7 @@ export const VariantInfoTable: FC<{
           fileName: variant + '_' + gene + '.csv',
       };
       gridApiRef.current?.exportDataAsCsv(params);
+      handleGoogleAnayticsEvent('Variant Effects Table', 'Download', 'Download ' + variant + '_' + gene + '.csv');
   }, [variant, gene]);
 
   return (

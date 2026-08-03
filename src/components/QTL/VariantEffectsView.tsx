@@ -7,6 +7,7 @@ import type { BoxplotVizData } from "../../helpers/schema.tsx";
 import { useAppSelector } from '../../app/hooks.ts';
 import { VariantInfoTable } from "./VariantInfoTable.tsx";
 import { formatNumber, generateGenotypeLabels } from "../../helpers/Utils.tsx";
+import { handleGoogleAnayticsEvent } from '../../helpers/googleAnalyticsHelpers.ts';
 export interface DiseasePlotContainer {
     plotData: Data[];
     disease: string;
@@ -24,6 +25,7 @@ export const VariantEffectsView = () => {
     const [qtlInfoArray, setQtlInfoArray] = useState<any>([]);
     const variant_id = useAppSelector((state) => state.variantReducer.variant.variantId);
     const ensg_id = useAppSelector((state) => state.variantReducer.variant.ensgId);
+    handleGoogleAnayticsEvent('Variant Effects Page', 'Navigation', variant_id);
 
     useEffect(() => {
         const getData = async () => {
