@@ -19,6 +19,7 @@ import { setGene } from "./features/gene/geneSlice.ts";
 import InfoHeader from "./components/Header/InfoHeader.tsx";
 import {formatNumber} from "./helpers/Utils.tsx";
 import CustomTextFilter from "./components/Filter/CustomTextFilter.tsx";
+import { handleGoogleAnayticsEvent } from "./helpers/googleAnalyticsHelpers.ts";
 
 
 type RowData = {
@@ -46,6 +47,8 @@ export function App() {
   const [noEnsgId, setNoEnsgId] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+
 
     const gridApiRef = useRef<GridApi | null>(null);
 
@@ -76,6 +79,7 @@ export function App() {
                 variantId: params.value,
                 dx: params.data.id.dx
             }))
+            handleGoogleAnayticsEvent('Variant Effects Table', 'Click', 'Variant ID Link Clicked');
             navigate('/effects')
           }
       };
