@@ -4,7 +4,7 @@ import type { ColDef } from 'ag-grid-community';
 import {AllCommunityModule, type GridApi, type GridReadyEvent, ModuleRegistry, TextFilterModule, TooltipModule, CustomFilterModule} from 'ag-grid-community';
 import { AgGridReact } from "ag-grid-react";
 ModuleRegistry.registerModules([AllCommunityModule, TextFilterModule, TooltipModule, CustomFilterModule]);
-
+import {handleGoogleAnayticsEvent} from "../../helpers/googleAnalyticsHelpers.ts";
 type RowData = {
   characteristic: string;
   numberOfParticipants: number | string;
@@ -13,9 +13,9 @@ type RowData = {
 }
 
 
-
 export function About() {
   const highlightedCharacteristics = ['Age', 'Sex', 'Ancestry', 'Disease', 'Baseline function values'];
+  handleGoogleAnayticsEvent('About Page', 'Navigation', 'About Page Viewed');
 
   const [columns] = useState<ColDef<RowData>[]>([
   { 

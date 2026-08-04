@@ -5,6 +5,7 @@ import { fetchFindBySnpLocation } from "../../helpers/ApolloClient";
 import { useAppDispatch } from "../../app/hooks";
 import { setQtl, setSearchTerm } from "../../features/qtl/qtlSlice";
 import { searchTypes } from "../../helpers/schema";
+import { handleGoogleAnayticsEvent } from "../../helpers/googleAnalyticsHelpers";
 
 const SNPSelect: React.FC = () => {
     const [inputValue, setInputValue] = useState<string>("");
@@ -32,6 +33,7 @@ const SNPSelect: React.FC = () => {
                     type: searchTypes.snp
                 })
             );
+            handleGoogleAnayticsEvent('Search', 'SNP Search', inputValue);
             dispatch(setQtl(results));
         }
     };

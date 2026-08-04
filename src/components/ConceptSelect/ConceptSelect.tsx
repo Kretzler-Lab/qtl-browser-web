@@ -6,6 +6,7 @@ import { searchTypes, type AutocompleteResult } from "../../helpers/schema";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setAutocomplete } from "../../features/autocomplete/autocompleteSlice";
 import { setSearchTerm } from "../../features/qtl/qtlSlice";
+import { handleGoogleAnayticsEvent } from "../../helpers/googleAnalyticsHelpers.ts";
 
 interface ConceptSelectProps {
     searchType: any;
@@ -83,6 +84,7 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ searchType }) => {
                     type: searchTypes.autoComplete
                 })
             );
+            handleGoogleAnayticsEvent('Search', 'Autocomplete', result.value);
             dispatch(setAutocomplete(result));
         }
       }
