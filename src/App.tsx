@@ -79,7 +79,7 @@ export function App() {
                 variantId: params.value,
                 dx: params.data.id.dx
             }))
-            handleGoogleAnayticsEvent('Variant Effects Table', 'Click', 'Variant ID Link Clicked');
+            handleGoogleAnayticsEvent('Variant Effects Table', 'Click', params.value);
             navigate('/effects')
           }
       };
