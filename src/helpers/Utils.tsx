@@ -37,7 +37,7 @@ export const generateGenotypeLabels = (variantId: string): string[] => {
     }
 };
 
-export const scientificNotationComparator = (valueA, valueB) => {
+export const scientificNotationComparator = (valueA: string, valueB: string) => {
     const numA = parseFloat(valueA);
     const numB = parseFloat(valueB);
 
