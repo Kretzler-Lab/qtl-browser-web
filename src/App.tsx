@@ -17,7 +17,7 @@ import {faDownload} from "@fortawesome/free-solid-svg-icons";
 import SNPSelect from "./components/SNPSelect/SNPSelect.tsx";
 import { setGene } from "./features/gene/geneSlice.ts";
 import InfoHeader from "./components/Header/InfoHeader.tsx";
-import {formatNumber} from "./helpers/Utils.tsx";
+import {formatNumber,scientificNotationComparator} from "./helpers/Utils.tsx";
 import CustomTextFilter from "./components/Filter/CustomTextFilter.tsx";
 import { handleGoogleAnayticsEvent } from "./helpers/googleAnalyticsHelpers.ts";
 
@@ -210,6 +210,7 @@ export function App() {
       sortable: true,
       headerComponent: InfoHeader,
       headerComponentParams: {infoIcon: true},
+      comparator: scientificNotationComparator,
       headerTooltip: "This is the p-value indicating the significance of the single SNP association with the gene expression."
     },
     {

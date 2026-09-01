@@ -36,3 +36,18 @@ export const generateGenotypeLabels = (variantId: string): string[] => {
         return ['0', '1', '2'];
     }
 };
+
+export const scientificNotationComparator = (valueA, valueB) => {
+    const numA = parseFloat(valueA);
+    const numB = parseFloat(valueB);
+
+    const aIsValid = !isNaN(numA);
+    const bIsValid = !isNaN(numB);
+
+    // Handle nulls/invalid values - push them to the end (or adjust as needed)
+    if (!aIsValid && !bIsValid) return 0;
+    if (!aIsValid) return -1;
+    if (!bIsValid) return 1;
+
+    return numA - numB;
+};
