@@ -44,7 +44,6 @@ export const scientificNotationComparator = (valueA: string, valueB: string) => 
     const aIsValid = !isNaN(numA);
     const bIsValid = !isNaN(numB);
 
-    // Handle nulls/invalid values - push them to the end (or adjust as needed)
     if (!aIsValid && !bIsValid) return 0;
     if (!aIsValid) return -1;
     if (!bIsValid) return 1;
