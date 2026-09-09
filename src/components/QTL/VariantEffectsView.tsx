@@ -1,0 +1,150 @@
+import { useEffect, useState } from 'react';
+import { Row, Col, Spinner } from 'reactstrap';
+import { BoxPlot } from "./BoxPlot.tsx";
+import type { Data } from 'plotly.js';
+import { fetchBoxplotData } from "../../helpers/ApolloClient.tsx";
+import type { BoxplotVizData } from "../../helpers/schema.tsx";
+import { useAppSelector } from '../../app/hooks.ts';
+import { VariantInfoTable } from "./VariantInfoTable.tsx";
+import { formatNumber, generateGenotypeLabels } from "../../helpers/Utils.tsx";
+import { handleGoogleAnayticsEvent } from '../../helpers/googleAnalyticsHelpers.ts';
+export interface DiseasePlotContainer {
+    plotData: Data[];
+    disease: string;
+    gene: string;
+    variant: string;
+    genotypeLabels?: string[];
+    pval?: string | number;
+}
+
+export const VariantEffectsView = () => {
+
+    const [boxplot_data, setBoxplotData] = useState<Record<string, DiseasePlotContainer>>({});
+    const [loading, setLoading] = useState(true);
+    const gene = useAppSelector((state) => state.geneReducer.geneResult);
+    const [qtlInfoArray, setQtlInfoArray] = useState<any>([]);
+    const variant_id = useAppSelector((state) => state.variantReducer.variant.variantId);
+    const ensg_id = useAppSelector((state) => state.variantReducer.variant.ensgId);
+    handleGoogleAnayticsEvent('Variant Effects Page', 'Navigation', variant_id);
+
+    useEffect(() => {
+        const getData = async () => {
+            setLoading(true);
+            try {
+                const box_data: BoxplotVizData[] = await fetchBoxplotData(variant_id, ensg_id);
+
+                if (!box_data) {
+                    setQtlInfoArray([]);
+                    return {};
+                }
+
+                // Build QTL info array for table using correct structure
+                const qtlInfo = box_data.filter((item: BoxplotVizData) => item?.qtl != null).map((item: BoxplotVizData) => ({
+                    gene: item.qtl?.id?.ensgId,
+                    id: {
+                        variantId: item.qtl?.id?.variantId,
+                        dx: item.qtl?.id?.dx,
+                        ensgId: item.qtl?.id?.ensgId
+                    },
+                    tssDistance: formatNumber(item.qtl?.tssDistance),
+                    maf: item.qtl?.maf.toFixed(3),
+                    pval: typeof(item.qtl?.pval) === "number" ? formatNumber(item.qtl?.pval): item.qtl?.pval,
+                    slope: item.qtl?.slope.toFixed(3),
+                    stderr: item.qtl?.slopeSe.toFixed(3),
+                    ggPatients: Array.isArray(item.groups) ? (item.groups.find(g => g.genotype === "0")?.count ?? undefined) : undefined,
+                    gaPatients: Array.isArray(item.groups) ? (item.groups.find(g => g.genotype === "1")?.count ?? undefined) : undefined,
+                    aaPatients: Array.isArray(item.groups) ? (item.groups.find(g => g.genotype === "2")?.count ?? undefined) : undefined,
+                    disease: item.disease.replace('igAN', 'IgAN')
+                }));
+                setQtlInfoArray(qtlInfo);
+                const mappedDiseases: Record<string, BoxplotVizData> = Object.values(box_data).reduce<Record<string, BoxplotVizData>>((acc: any, curr: any) => {
+                    acc[curr.disease] = (curr as BoxplotVizData);
+                    return acc;
+                }, {} as Record<string, BoxplotVizData>);
+
+                const colors = ['#636EFA', '#EF553B', '#00CC96'];
+                const genotypeLabels = generateGenotypeLabels(variant_id);
+
+                const plotsByDisease = Object.keys(mappedDiseases as Object).reduce<Record<string, DiseasePlotContainer>>((acc, disease) => {
+                    const diseaseData = mappedDiseases[disease];
+
+                    const traces: Data[] = diseaseData.groups.map((group: any, index: number) => {
+                        const label = genotypeLabels[parseInt(group.genotype)];
+                        return {
+                            x: group.phenotypes.map(() => label),
+                            y: group.phenotypes.map((val: any) => parseFloat(val)),
+                            name: label,
+                            type: 'box',
+                            marker: {
+                                color: colors[index % colors.length]
+                            },
+                            boxpoints: 'all',
+                            jitter: 0.3,
+                            pointpos: -1.8
+                        };
+                    });
+
+                    acc[disease] = {
+                        plotData: traces,
+                        disease: disease,
+                        gene: gene,
+                        variant: variant_id,
+                        genotypeLabels: genotypeLabels,
+                        pval: typeof (diseaseData.qtl?.pval ) === "number" ? formatNumber(diseaseData.qtl?.pval) : diseaseData.qtl?.pval
+                    };
+
+                    return acc;
+                }, {} as Record<string, DiseasePlotContainer>);
+
+                setBoxplotData(plotsByDisease);
+
+            } catch (error) {
+                console.error("Failed to fetch boxplot data", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        getData();
+    }, [variant_id, ensg_id]);
+
+    if (loading) {
+        return <div className="text-center my-4">
+            <Spinner color="primary" />
+            <h1>Loading... Please wait</h1>
+        </div>
+    }
+    return (
+        <div className="container mt-3 mb-5">
+            <Row xs={12}>
+                <Col xs={8} style={{ "display": "flex", "alignItems": "center" }}>
+                    <h4>Gene: {gene}<br />Variant ID: {variant_id}</h4>
+                </Col>
+                <Col xs={4} className="text-end text-primary ">
+                    <button onClick={() => { window.history.back() }} type='button' className='btn btn-link'>
+                        <h5><span style={{ "fontSize": "26px" }}>&larr;</span> Back to search results</h5></button>
+                </Col>
+            </Row>
+            <Row className="mb-5">
+                {
+                    Object.entries(boxplot_data).map(([_, data]) => 
+                        (data.pval) ?
+                            <Col xs={2} className='text-center boxplot-text'>
+                                <BoxPlot plotData={data} />
+                                <span>P-Value: {data.pval}</span>
+                            </Col>
+                        : 
+                            <Col xs={2} className='text-center boxplot-text'>
+                                <h3>No Data</h3>
+                                <p>{data.disease}</p> 
+                            </Col>
+                    )
+                }
+            </Row>
+            <Row>
+                <Col xs={12}>
+                    <VariantInfoTable plotData={qtlInfoArray} gene={gene} variant={variant_id} />
+                </Col>
+            </Row>
+        </div>
+    );
+};
