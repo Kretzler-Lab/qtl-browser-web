@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col } from 'reactstrap';
 import AsyncSelect from "react-select/async";
 import { fetchAutocomplete } from "../../helpers/ApolloClient";
-import { searchTypes, type AutocompleteResult } from "../../helpers/schema";
+import { searchTypes, type AutocompleteResult, type searchTerm } from "../../helpers/schema";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setAutocomplete } from "../../features/autocomplete/autocompleteSlice";
 import { setSearchTerm } from "../../features/qtl/qtlSlice";
@@ -20,6 +20,7 @@ const messages = {
 const ConceptSelect: React.FC<ConceptSelectProps> = ({ searchType }) => {
     const [inputValue, setInputValue] = useState<string>("");
     const autocompleteResult: AutocompleteResult | null = useAppSelector((state) => state.autocompleteReducer.autocompleteResult);
+    const searchTerm: searchTerm | null = useAppSelector((state) => state.qtlReducer?.searchTerm);
     const dispatch = useAppDispatch();
 
     const formatOption = (result: AutocompleteResult, searchString: string) => {
@@ -106,7 +107,7 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ searchType }) => {
                             loadOptions={getOptions}
                             onInputChange={handleInputChange}
                             onChange={handleSelect}
-                            placeholder={autocompleteResult?.value || "Please enter a gene symbol"}
+                            placeholder={ (searchTerm?.type == searchTypes.autoComplete && autocompleteResult?.value) || "Please enter a gene symbol"}
                             noOptionsMessage={({ inputValue }) => {
                                 if (inputValue.trim().length < 2) return messages.initial;
                                 return messages.noOption;

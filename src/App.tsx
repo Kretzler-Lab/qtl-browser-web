@@ -96,12 +96,12 @@ export function App() {
 
 
   useEffect(() => {
-    if (!searchTerm) {
-		return;
-    }
-
     setRowData([]);
     setNoEnsgId(false);
+    
+    if (!searchTerm) {
+      return;
+    }
 
     const getRowData = async () => {
 		if (!autocompleteResult?.ensg_id || autocompleteResult?.ensg_id === null) {

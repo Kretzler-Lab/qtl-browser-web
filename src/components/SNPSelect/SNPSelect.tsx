@@ -2,14 +2,15 @@ import React, { useState, type KeyboardEventHandler } from "react";
 import { Row, Col } from 'reactstrap';
 import AsyncSelect from "react-select/async";
 import { fetchFindBySnpLocation } from "../../helpers/ApolloClient";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setQtl, setSearchTerm } from "../../features/qtl/qtlSlice";
-import { searchTypes } from "../../helpers/schema";
+import { searchTypes, type searchTerm } from "../../helpers/schema";
 import { handleGoogleAnayticsEvent } from "../../helpers/googleAnalyticsHelpers";
 
 const SNPSelect: React.FC = () => {
     const [inputValue, setInputValue] = useState<string>("");
     const [value, setValue] = useState<string>("");
+    const searchTerm: searchTerm | null = useAppSelector((state) => state.qtlReducer?.searchTerm);
     const dispatch = useAppDispatch();
 
     const handleKeyDown: KeyboardEventHandler = (event) => {
@@ -56,7 +57,7 @@ const SNPSelect: React.FC = () => {
                             onInputChange={(newValue) => setInputValue(newValue)}
                             onChange={(newValue: any) => setValue(newValue)}
                             onKeyDown={handleKeyDown}
-                            placeholder={<span>Enter SNP location, e.g. <i>chr4-108912965</i></span>}
+                            placeholder={((searchTerm?.type == searchTypes.snp && searchTerm?.term) || <span>Enter SNP location, e.g. <i>chr4-108912965</i></span>)}
                             menuPortalTarget={document.body}
                             styles={{ menuPortal: base => ({ ...base, zIndex: 10 }) }}
                         />
