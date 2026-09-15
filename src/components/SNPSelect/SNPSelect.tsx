@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setQtl, setSearchTerm } from "../../features/qtl/qtlSlice";
 import { searchTypes, type searchTerm } from "../../helpers/schema";
 import { handleGoogleAnayticsEvent } from "../../helpers/googleAnalyticsHelpers";
+import { setAutocomplete } from "../../features/autocomplete/autocompleteSlice";
 
 const SNPSelect: React.FC = () => {
     const [inputValue, setInputValue] = useState<string>("");
@@ -36,6 +37,7 @@ const SNPSelect: React.FC = () => {
             );
             handleGoogleAnayticsEvent('Search', 'SNP Search', inputValue);
             dispatch(setQtl(results));
+            dispatch(setAutocomplete(null));
         }
     };
 

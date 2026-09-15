@@ -70,11 +70,6 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ searchType }) => {
         return [];
     };
 
-    const handleInputChange = (value: string) => {
-        setInputValue(value);
-        return value;
-    };
-
     const handleSelect = (selected: any) => {
       if (selected !== null) {
         const result = selected.value as AutocompleteResult;
@@ -105,8 +100,9 @@ const ConceptSelect: React.FC<ConceptSelectProps> = ({ searchType }) => {
                             defaultInputValue={""}
                             inputValue={inputValue}
                             loadOptions={getOptions}
-                            onInputChange={handleInputChange}
-                            onChange={handleSelect}
+                            onInputChange={(newValue: string) => setInputValue(newValue)}
+                            value={ (searchTerm?.type == searchTypes.autoComplete && autocompleteResult?.value) }
+                            onChange={(newValue: any) => handleSelect(newValue)}
                             placeholder={ (searchTerm?.type == searchTypes.autoComplete && autocompleteResult?.value) || "Please enter a gene symbol"}
                             noOptionsMessage={({ inputValue }) => {
                                 if (inputValue.trim().length < 2) return messages.initial;
