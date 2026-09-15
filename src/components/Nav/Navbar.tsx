@@ -52,7 +52,7 @@ export function NavBar () {
   return (
       <Navbar id='navbar' className='px-1 py-1'>
           <Col sm={12} className="d-flex align-items-center">
-              <Link to='/' className="navbar-header d-flex align-items-center text-decoration-none" onClick={() => handleNavigation('Home', true)}>
+              <Link to='/' reloadDocument={true} className="navbar-header d-flex align-items-center text-decoration-none" onClick={() => handleNavigation('Home', true)}>
                   <NavbarBrand className="d-flex align-items-center">
                       <img src='/img/CureGN_logo.png' alt='logo' className='logo'/>
                         <span className='ml-2 text-dark' id="nav-title" style={{ whiteSpace: 'nowrap' }}>QTL Browser</span>
